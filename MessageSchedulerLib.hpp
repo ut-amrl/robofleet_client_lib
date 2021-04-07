@@ -4,7 +4,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <vector>
-#include <boost/function.hpp>
+#include <functional>
 
 using SchedulerClock = std::chrono::high_resolution_clock;
 
@@ -32,7 +32,7 @@ template <typename T> struct WaitingMessage {
  * when schedule() is called.
  */
 template <typename T> class MessageSchedulerLib {
-  boost::function<void(const T&)> sc_;
+  std::function<void(const T&)> sc_;
   uint64_t network_backpressure_counter_ = 0;
   uint64_t max_queue_before_waiting_ = 1;
 
@@ -40,7 +40,7 @@ template <typename T> class MessageSchedulerLib {
   std::unordered_map<std::string, WaitingMessage<T>> topic_queue;
 
   public:
-    MessageSchedulerLib(uint64_t mq, boost::function<void(const T&)> sc) {
+    MessageSchedulerLib(uint64_t mq, std::function<void(const T&)> sc) {
       max_queue_before_waiting_ = mq;
       sc_ = sc;
     }
