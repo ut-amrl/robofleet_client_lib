@@ -27,8 +27,10 @@ template <typename T> struct WaitingMessage {
 
 /**
  * @brief Queues messages and schedules them on demand.
- *
- * Messages are enqueued, and then later scheduled (via the scheduled signal)
+ * This implements Robofleet's backpressure monitoring algorithm for traffic control, and expects backpressure updates via the websocket ping/pong mechanism.
+ * This does *not* include rate limiting, which is expected to be done by a client *before* calling `enqueue`,
+ * as the client can avoid paying the cost of encoding a message by rate-limiting earlier.
+ * Messages are enqueued, and then later scheduled
  * when schedule() is called.
  */
 template <typename T> class MessageSchedulerLib {
