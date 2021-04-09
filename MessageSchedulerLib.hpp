@@ -17,6 +17,8 @@ template <typename T> struct WaitingMessage {
 
   double priority = 0;
 
+  double publish_interval = 0;
+
   // when a message was last sent on this topic
   SchedulerClock::time_point last_send_time = SchedulerClock::now();
 
@@ -48,7 +50,7 @@ template <typename T> class MessageSchedulerLib {
     }
 
     void enqueue(
-        const std::string& topic, const T& data, double priority,
+        const std::string& topic, const T& data, double priority, double rate_limit,
         bool no_drop) {
       if (no_drop) {
         no_drop_queue.push_back(data);
@@ -56,6 +58,7 @@ template <typename T> class MessageSchedulerLib {
         topic_queue[topic].message = data;
         topic_queue[topic].message_ready = true;
         topic_queue[topic].priority = priority;
+        topic_queue[topic].publish_interval = rate_limit != 0 ? 1.0 / rate_limit : 0.0;
       }
       schedule();
     }
@@ -103,10 +106,11 @@ template <typename T> class MessageSchedulerLib {
       for (auto it = topic_queue.begin(); it != topic_queue.end(); ++it) {
         const std::string& candidate_topic = it->first;
         WaitingMessage<T>& candidate = it->second;
-
-        if (candidate.message_ready) {
+        const auto duration = 
+          std::chrono::duration_cast<std::chrono::milliseconds>(now - candidate.last_send_time);
+        if (candidate.message_ready && duration.count() / 1000.0 > candidate.publish_interval) {
           candidate.time_waiting =
-              (now - candidate.last_send_time) * candidate.priority;
+              (duration) * candidate.priority;
           candidates.push_back(&candidate);
         }
       }
