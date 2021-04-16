@@ -20,14 +20,6 @@ struct RosTime;
 
 struct RosDuration;
 
-namespace std_msgs {
-
-struct String;
-struct StringBuilder;
-struct StringT;
-
-}  // namespace std_msgs
-
 namespace amrl_msgs {
 
 struct RobofleetStatus;
@@ -37,6 +29,14 @@ struct RobofleetStatusT;
 struct RobofleetSubscription;
 struct RobofleetSubscriptionBuilder;
 struct RobofleetSubscriptionT;
+
+struct ElevatorStatus;
+struct ElevatorStatusBuilder;
+struct ElevatorStatusT;
+
+struct ElevatorCommand;
+struct ElevatorCommandBuilder;
+struct ElevatorCommandT;
 
 }  // namespace amrl_msgs
 
@@ -111,6 +111,14 @@ struct PointCloud2Builder;
 struct PointCloud2T;
 
 }  // namespace sensor_msgs
+
+namespace std_msgs {
+
+struct String;
+struct StringBuilder;
+struct StringT;
+
+}  // namespace std_msgs
 
 namespace geometry_msgs {
 
@@ -214,6 +222,118 @@ inline const char *EnumNameaction_subscribe(action_subscribe e) {
 }
 
 }  // namespace RobofleetSubscriptionConstants
+
+namespace ElevatorStatusConstants {
+
+enum door_open {
+  door_open_value = 1,
+  door_open_MIN = door_open_value,
+  door_open_MAX = door_open_value
+};
+
+inline const door_open (&EnumValuesdoor_open())[1] {
+  static const door_open values[] = {
+    door_open_value
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesdoor_open() {
+  static const char * const names[2] = {
+    "value",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamedoor_open(door_open e) {
+  if (flatbuffers::IsOutRange(e, door_open_value, door_open_value)) return "";
+  const size_t index = static_cast<size_t>(e) - static_cast<size_t>(door_open_value);
+  return EnumNamesdoor_open()[index];
+}
+
+enum door_closed {
+  door_closed_value = 0,
+  door_closed_MIN = door_closed_value,
+  door_closed_MAX = door_closed_value
+};
+
+inline const door_closed (&EnumValuesdoor_closed())[1] {
+  static const door_closed values[] = {
+    door_closed_value
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesdoor_closed() {
+  static const char * const names[2] = {
+    "value",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamedoor_closed(door_closed e) {
+  if (flatbuffers::IsOutRange(e, door_closed_value, door_closed_value)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesdoor_closed()[index];
+}
+
+enum door_transition {
+  door_transition_value = 2,
+  door_transition_MIN = door_transition_value,
+  door_transition_MAX = door_transition_value
+};
+
+inline const door_transition (&EnumValuesdoor_transition())[1] {
+  static const door_transition values[] = {
+    door_transition_value
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesdoor_transition() {
+  static const char * const names[2] = {
+    "value",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamedoor_transition(door_transition e) {
+  if (flatbuffers::IsOutRange(e, door_transition_value, door_transition_value)) return "";
+  const size_t index = static_cast<size_t>(e) - static_cast<size_t>(door_transition_value);
+  return EnumNamesdoor_transition()[index];
+}
+
+enum floor_transition {
+  floor_transition_value = 0,
+  floor_transition_MIN = floor_transition_value,
+  floor_transition_MAX = floor_transition_value
+};
+
+inline const floor_transition (&EnumValuesfloor_transition())[1] {
+  static const floor_transition values[] = {
+    floor_transition_value
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesfloor_transition() {
+  static const char * const names[2] = {
+    "value",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamefloor_transition(floor_transition e) {
+  if (flatbuffers::IsOutRange(e, floor_transition_value, floor_transition_value)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesfloor_transition()[index];
+}
+
+}  // namespace ElevatorStatusConstants
 }  // namespace amrl_msgs
 
 namespace sensor_msgs {
@@ -950,89 +1070,6 @@ inline flatbuffers::Offset<MsgWithMetadata> CreateMsgWithMetadata(
 
 flatbuffers::Offset<MsgWithMetadata> CreateMsgWithMetadata(flatbuffers::FlatBufferBuilder &_fbb, const MsgWithMetadataT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-namespace std_msgs {
-
-struct StringT : public flatbuffers::NativeTable {
-  typedef String TableType;
-  std::unique_ptr<fb::MsgMetadataT> __metadata;
-  std::string data;
-  StringT() {
-  }
-};
-
-struct String FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef StringT NativeTableType;
-  typedef StringBuilder Builder;
-  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT___METADATA = 4,
-    VT_DATA = 6
-  };
-  const fb::MsgMetadata *__metadata() const {
-    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
-  }
-  const flatbuffers::String *data() const {
-    return GetPointer<const flatbuffers::String *>(VT_DATA);
-  }
-  bool Verify(flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyOffset(verifier, VT___METADATA) &&
-           verifier.VerifyTable(__metadata()) &&
-           VerifyOffsetRequired(verifier, VT_DATA) &&
-           verifier.VerifyString(data()) &&
-           verifier.EndTable();
-  }
-  StringT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(StringT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static flatbuffers::Offset<String> Pack(flatbuffers::FlatBufferBuilder &_fbb, const StringT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
-};
-
-struct StringBuilder {
-  typedef String Table;
-  flatbuffers::FlatBufferBuilder &fbb_;
-  flatbuffers::uoffset_t start_;
-  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
-    fbb_.AddOffset(String::VT___METADATA, __metadata);
-  }
-  void add_data(flatbuffers::Offset<flatbuffers::String> data) {
-    fbb_.AddOffset(String::VT_DATA, data);
-  }
-  explicit StringBuilder(flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  flatbuffers::Offset<String> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = flatbuffers::Offset<String>(end);
-    fbb_.Required(o, String::VT_DATA);
-    return o;
-  }
-};
-
-inline flatbuffers::Offset<String> CreateString(
-    flatbuffers::FlatBufferBuilder &_fbb,
-    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
-    flatbuffers::Offset<flatbuffers::String> data = 0) {
-  StringBuilder builder_(_fbb);
-  builder_.add_data(data);
-  builder_.add___metadata(__metadata);
-  return builder_.Finish();
-}
-
-inline flatbuffers::Offset<String> CreateStringDirect(
-    flatbuffers::FlatBufferBuilder &_fbb,
-    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
-    const char *data = nullptr) {
-  auto data__ = data ? _fbb.CreateString(data) : 0;
-  return fb::std_msgs::CreateString(
-      _fbb,
-      __metadata,
-      data__);
-}
-
-flatbuffers::Offset<String> CreateString(flatbuffers::FlatBufferBuilder &_fbb, const StringT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-}  // namespace std_msgs
-
 namespace amrl_msgs {
 
 struct RobofleetStatusT : public flatbuffers::NativeTable {
@@ -1250,6 +1287,164 @@ inline flatbuffers::Offset<RobofleetSubscription> CreateRobofleetSubscriptionDir
 }
 
 flatbuffers::Offset<RobofleetSubscription> CreateRobofleetSubscription(flatbuffers::FlatBufferBuilder &_fbb, const RobofleetSubscriptionT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct ElevatorStatusT : public flatbuffers::NativeTable {
+  typedef ElevatorStatus TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  uint8_t floor;
+  uint8_t door;
+  ElevatorStatusT()
+      : floor(0),
+        door(0) {
+  }
+};
+
+struct ElevatorStatus FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef ElevatorStatusT NativeTableType;
+  typedef ElevatorStatusBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_FLOOR = 6,
+    VT_DOOR = 8
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  uint8_t floor() const {
+    return GetField<uint8_t>(VT_FLOOR, 0);
+  }
+  uint8_t door() const {
+    return GetField<uint8_t>(VT_DOOR, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyField<uint8_t>(verifier, VT_FLOOR) &&
+           VerifyField<uint8_t>(verifier, VT_DOOR) &&
+           verifier.EndTable();
+  }
+  ElevatorStatusT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ElevatorStatusT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<ElevatorStatus> Pack(flatbuffers::FlatBufferBuilder &_fbb, const ElevatorStatusT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct ElevatorStatusBuilder {
+  typedef ElevatorStatus Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(ElevatorStatus::VT___METADATA, __metadata);
+  }
+  void add_floor(uint8_t floor) {
+    fbb_.AddElement<uint8_t>(ElevatorStatus::VT_FLOOR, floor, 0);
+  }
+  void add_door(uint8_t door) {
+    fbb_.AddElement<uint8_t>(ElevatorStatus::VT_DOOR, door, 0);
+  }
+  explicit ElevatorStatusBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<ElevatorStatus> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<ElevatorStatus>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<ElevatorStatus> CreateElevatorStatus(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    uint8_t floor = 0,
+    uint8_t door = 0) {
+  ElevatorStatusBuilder builder_(_fbb);
+  builder_.add___metadata(__metadata);
+  builder_.add_door(door);
+  builder_.add_floor(floor);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<ElevatorStatus> CreateElevatorStatus(flatbuffers::FlatBufferBuilder &_fbb, const ElevatorStatusT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct ElevatorCommandT : public flatbuffers::NativeTable {
+  typedef ElevatorCommand TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  uint8_t floor_cmd;
+  bool hold_door;
+  ElevatorCommandT()
+      : floor_cmd(0),
+        hold_door(false) {
+  }
+};
+
+struct ElevatorCommand FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef ElevatorCommandT NativeTableType;
+  typedef ElevatorCommandBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_FLOOR_CMD = 6,
+    VT_HOLD_DOOR = 8
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  uint8_t floor_cmd() const {
+    return GetField<uint8_t>(VT_FLOOR_CMD, 0);
+  }
+  bool hold_door() const {
+    return GetField<uint8_t>(VT_HOLD_DOOR, 0) != 0;
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyField<uint8_t>(verifier, VT_FLOOR_CMD) &&
+           VerifyField<uint8_t>(verifier, VT_HOLD_DOOR) &&
+           verifier.EndTable();
+  }
+  ElevatorCommandT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ElevatorCommandT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<ElevatorCommand> Pack(flatbuffers::FlatBufferBuilder &_fbb, const ElevatorCommandT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct ElevatorCommandBuilder {
+  typedef ElevatorCommand Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(ElevatorCommand::VT___METADATA, __metadata);
+  }
+  void add_floor_cmd(uint8_t floor_cmd) {
+    fbb_.AddElement<uint8_t>(ElevatorCommand::VT_FLOOR_CMD, floor_cmd, 0);
+  }
+  void add_hold_door(bool hold_door) {
+    fbb_.AddElement<uint8_t>(ElevatorCommand::VT_HOLD_DOOR, static_cast<uint8_t>(hold_door), 0);
+  }
+  explicit ElevatorCommandBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<ElevatorCommand> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<ElevatorCommand>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<ElevatorCommand> CreateElevatorCommand(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    uint8_t floor_cmd = 0,
+    bool hold_door = false) {
+  ElevatorCommandBuilder builder_(_fbb);
+  builder_.add___metadata(__metadata);
+  builder_.add_hold_door(hold_door);
+  builder_.add_floor_cmd(floor_cmd);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<ElevatorCommand> CreateElevatorCommand(flatbuffers::FlatBufferBuilder &_fbb, const ElevatorCommandT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 }  // namespace amrl_msgs
 
@@ -3088,6 +3283,89 @@ flatbuffers::Offset<PointCloud2> CreatePointCloud2(flatbuffers::FlatBufferBuilde
 
 }  // namespace sensor_msgs
 
+namespace std_msgs {
+
+struct StringT : public flatbuffers::NativeTable {
+  typedef String TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  std::string data;
+  StringT() {
+  }
+};
+
+struct String FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef StringT NativeTableType;
+  typedef StringBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_DATA = 6
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  const flatbuffers::String *data() const {
+    return GetPointer<const flatbuffers::String *>(VT_DATA);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyOffsetRequired(verifier, VT_DATA) &&
+           verifier.VerifyString(data()) &&
+           verifier.EndTable();
+  }
+  StringT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(StringT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<String> Pack(flatbuffers::FlatBufferBuilder &_fbb, const StringT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct StringBuilder {
+  typedef String Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(String::VT___METADATA, __metadata);
+  }
+  void add_data(flatbuffers::Offset<flatbuffers::String> data) {
+    fbb_.AddOffset(String::VT_DATA, data);
+  }
+  explicit StringBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<String> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<String>(end);
+    fbb_.Required(o, String::VT_DATA);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<String> CreateString(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<flatbuffers::String> data = 0) {
+  StringBuilder builder_(_fbb);
+  builder_.add_data(data);
+  builder_.add___metadata(__metadata);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<String> CreateStringDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    const char *data = nullptr) {
+  auto data__ = data ? _fbb.CreateString(data) : 0;
+  return fb::std_msgs::CreateString(
+      _fbb,
+      __metadata,
+      data__);
+}
+
+flatbuffers::Offset<String> CreateString(flatbuffers::FlatBufferBuilder &_fbb, const StringT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+}  // namespace std_msgs
+
 namespace geometry_msgs {
 
 struct PointT : public flatbuffers::NativeTable {
@@ -3991,39 +4269,6 @@ inline flatbuffers::Offset<MsgWithMetadata> CreateMsgWithMetadata(flatbuffers::F
       ___metadata);
 }
 
-namespace std_msgs {
-
-inline StringT *String::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
-  std::unique_ptr<fb::std_msgs::StringT> _o = std::unique_ptr<fb::std_msgs::StringT>(new StringT());
-  UnPackTo(_o.get(), _resolver);
-  return _o.release();
-}
-
-inline void String::UnPackTo(StringT *_o, const flatbuffers::resolver_function_t *_resolver) const {
-  (void)_o;
-  (void)_resolver;
-  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
-  { auto _e = data(); if (_e) _o->data = _e->str(); }
-}
-
-inline flatbuffers::Offset<String> String::Pack(flatbuffers::FlatBufferBuilder &_fbb, const StringT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
-  return CreateString(_fbb, _o, _rehasher);
-}
-
-inline flatbuffers::Offset<String> CreateString(flatbuffers::FlatBufferBuilder &_fbb, const StringT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
-  (void)_rehasher;
-  (void)_o;
-  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const StringT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
-  auto _data = _fbb.CreateString(_o->data);
-  return fb::std_msgs::CreateString(
-      _fbb,
-      ___metadata,
-      _data);
-}
-
-}  // namespace std_msgs
-
 namespace amrl_msgs {
 
 inline RobofleetStatusT *RobofleetStatus::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
@@ -4094,6 +4339,70 @@ inline flatbuffers::Offset<RobofleetSubscription> CreateRobofleetSubscription(fl
       ___metadata,
       _topic_regex,
       _action);
+}
+
+inline ElevatorStatusT *ElevatorStatus::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<fb::amrl_msgs::ElevatorStatusT> _o = std::unique_ptr<fb::amrl_msgs::ElevatorStatusT>(new ElevatorStatusT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void ElevatorStatus::UnPackTo(ElevatorStatusT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = floor(); _o->floor = _e; }
+  { auto _e = door(); _o->door = _e; }
+}
+
+inline flatbuffers::Offset<ElevatorStatus> ElevatorStatus::Pack(flatbuffers::FlatBufferBuilder &_fbb, const ElevatorStatusT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateElevatorStatus(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<ElevatorStatus> CreateElevatorStatus(flatbuffers::FlatBufferBuilder &_fbb, const ElevatorStatusT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const ElevatorStatusT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _floor = _o->floor;
+  auto _door = _o->door;
+  return fb::amrl_msgs::CreateElevatorStatus(
+      _fbb,
+      ___metadata,
+      _floor,
+      _door);
+}
+
+inline ElevatorCommandT *ElevatorCommand::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<fb::amrl_msgs::ElevatorCommandT> _o = std::unique_ptr<fb::amrl_msgs::ElevatorCommandT>(new ElevatorCommandT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void ElevatorCommand::UnPackTo(ElevatorCommandT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = floor_cmd(); _o->floor_cmd = _e; }
+  { auto _e = hold_door(); _o->hold_door = _e; }
+}
+
+inline flatbuffers::Offset<ElevatorCommand> ElevatorCommand::Pack(flatbuffers::FlatBufferBuilder &_fbb, const ElevatorCommandT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateElevatorCommand(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<ElevatorCommand> CreateElevatorCommand(flatbuffers::FlatBufferBuilder &_fbb, const ElevatorCommandT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const ElevatorCommandT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _floor_cmd = _o->floor_cmd;
+  auto _hold_door = _o->hold_door;
+  return fb::amrl_msgs::CreateElevatorCommand(
+      _fbb,
+      ___metadata,
+      _floor_cmd,
+      _hold_door);
 }
 
 }  // namespace amrl_msgs
@@ -4697,6 +5006,39 @@ inline flatbuffers::Offset<PointCloud2> CreatePointCloud2(flatbuffers::FlatBuffe
 }
 
 }  // namespace sensor_msgs
+
+namespace std_msgs {
+
+inline StringT *String::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<fb::std_msgs::StringT> _o = std::unique_ptr<fb::std_msgs::StringT>(new StringT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void String::UnPackTo(StringT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = data(); if (_e) _o->data = _e->str(); }
+}
+
+inline flatbuffers::Offset<String> String::Pack(flatbuffers::FlatBufferBuilder &_fbb, const StringT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateString(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<String> CreateString(flatbuffers::FlatBufferBuilder &_fbb, const StringT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const StringT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _data = _fbb.CreateString(_o->data);
+  return fb::std_msgs::CreateString(
+      _fbb,
+      ___metadata,
+      _data);
+}
+
+}  // namespace std_msgs
 
 namespace geometry_msgs {
 
