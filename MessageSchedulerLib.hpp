@@ -38,7 +38,7 @@ template <typename T> struct WaitingMessage {
 template <typename T> class MessageSchedulerLib {
   std::function<void(const T&)> sc_;
   uint64_t network_backpressure_counter_ = 0;
-  uint64_t max_queue_before_waiting_ = 2;
+  uint64_t max_queue_before_waiting_ = 1;
 
   std::deque<T> no_drop_queue;
   std::unordered_map<std::string, WaitingMessage<T>> topic_queue;
@@ -118,7 +118,7 @@ template <typename T> class MessageSchedulerLib {
       // Determine how many messages we are allowed to send
       int messages_to_send = std::min(
           (max_queue_before_waiting_ - network_backpressure_counter_),
-          (uint64_t)candidates.size());
+          candidates.size());
 
       // Sort candidates
       auto compare = [](WaitingMessage<T>* lhs, WaitingMessage<T>* rhs) {
