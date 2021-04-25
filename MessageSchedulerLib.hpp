@@ -118,7 +118,7 @@ template <typename T> class MessageSchedulerLib {
       // Determine how many messages we are allowed to send
       int messages_to_send = std::min(
           (max_queue_before_waiting_ - network_backpressure_counter_),
-          candidates.size());
+          (uint64_t)candidates.size());
 
       // Sort candidates
       auto compare = [](WaitingMessage<T>* lhs, WaitingMessage<T>* rhs) {
