@@ -104,7 +104,6 @@ template <typename T> class MessageSchedulerLib {
       // Collect candidates
       std::vector<WaitingMessage<T>*> candidates;
       for (auto it = topic_queue.begin(); it != topic_queue.end(); ++it) {
-        const std::string& candidate_topic = it->first;
         WaitingMessage<T>& candidate = it->second;
         const auto duration = 
           std::chrono::duration_cast<std::chrono::milliseconds>(now - candidate.last_send_time);
