@@ -1,6 +1,7 @@
 #pragma once
 
 #include "message_structs.h"
+#include "schema_generated.h"
 #include <flatbuffers/flatbuffers.h>
 #include <algorithm>
 

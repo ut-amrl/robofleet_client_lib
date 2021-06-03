@@ -2,6 +2,7 @@
 
 #include <flatbuffers/flatbuffers.h>
 #include "message_structs.h"
+#include "schema_generated.h"
 
 // to add a new message type, specialize this template to decode the message
 // and...
