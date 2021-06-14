@@ -44,3 +44,18 @@ RobotStatus decode(
   dst.status = src->status()->str();
   return dst;
 }
+
+template <>
+struct flatbuffers_type_for<RobotLocation> {
+    typedef fb::amrl_msgs::Localization2DMsg type;
+};
+template <>
+RobotLocation decode(
+    const fb::amrl_msgs::Localization2DMsg* const src) {
+    RobotLocation dst;
+    dst.x = src->pose()->x();
+    dst.y = src->pose()->y();
+    dst.theta = src->pose()->theta();
+    dst.frame = src->header()->frame_id()->str();
+    return dst;
+}
