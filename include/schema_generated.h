@@ -142,6 +142,10 @@ struct PoseWithCovariance;
 struct PoseWithCovarianceBuilder;
 struct PoseWithCovarianceT;
 
+struct PoseWithCovarianceStamped;
+struct PoseWithCovarianceStampedBuilder;
+struct PoseWithCovarianceStampedT;
+
 struct Vector3;
 struct Vector3Builder;
 struct Vector3T;
@@ -3817,6 +3821,97 @@ inline flatbuffers::Offset<PoseWithCovariance> CreatePoseWithCovarianceDirect(
 }
 
 flatbuffers::Offset<PoseWithCovariance> CreatePoseWithCovariance(flatbuffers::FlatBufferBuilder &_fbb, const PoseWithCovarianceT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct PoseWithCovarianceStampedT : public flatbuffers::NativeTable {
+  typedef PoseWithCovarianceStamped TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  std::unique_ptr<fb::std_msgs::HeaderT> header;
+  std::unique_ptr<fb::geometry_msgs::PoseWithCovarianceT> pose;
+  PoseWithCovarianceStampedT() {
+  }
+};
+
+struct PoseWithCovarianceStamped FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef PoseWithCovarianceStampedT NativeTableType;
+  typedef PoseWithCovarianceStampedBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_HEADER = 6,
+    VT_POSE = 8,
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  const fb::std_msgs::Header *header() const {
+    return GetPointer<const fb::std_msgs::Header *>(VT_HEADER);
+  }
+  const fb::geometry_msgs::PoseWithCovariance *pose() const {
+    return GetPointer<const fb::geometry_msgs::PoseWithCovariance *>(VT_POSE);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyOffsetRequired(verifier, VT_POSE) &&
+           verifier.VerifyTable(pose()) &&
+           verifier.EndTable();
+  }
+  PoseWithCovarianceStampedT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PoseWithCovarianceStampedT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<PoseWithCovarianceStamped> Pack(flatbuffers::FlatBufferBuilder &_fbb, const PoseWithCovarianceStampedT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct PoseWithCovarianceStampedBuilder {
+  typedef PoseWithCovarianceStamped Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(PoseWithCovarianceStamped::VT___METADATA, __metadata);
+  }
+  void add_header(flatbuffers::Offset<fb::std_msgs::Header> header) {
+    fbb_.AddOffset(PoseWithCovarianceStamped::VT_HEADER, header);
+  }
+  void add_pose(flatbuffers::Offset<fb::geometry_msgs::PoseWithCovariance> pose) {
+    fbb_.AddOffset(PoseWithCovarianceStamped::VT_POSE, pose);
+  }
+  explicit PoseWithCovarianceStampedBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<PoseWithCovarianceStamped> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<PoseWithCovarianceStamped>(end);
+    fbb_.Required(o, PoseWithCovarianceStamped::VT_HEADER);
+    fbb_.Required(o, PoseWithCovarianceStamped::VT_POSE);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<PoseWithCovarianceStamped> CreatePoseWithCovarianceStamped(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::Header> header = 0,
+    flatbuffers::Offset<fb::geometry_msgs::PoseWithCovariance> pose = 0) {
+  PoseWithCovarianceStampedBuilder builder_(_fbb);
+  builder_.add_header(header);
+  builder_.add_pose(pose);
+  builder_.add___metadata(__metadata);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<PoseWithCovarianceStamped> CreatePoseWithCovarianceStampedDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::Header> header = 0,
+    flatbuffers::Offset<fb::geometry_msgs::PoseWithCovariance> pose = 0) {
+  return fb::geometry_msgs::CreatePoseWithCovarianceStamped(
+      _fbb,
+      __metadata,
+      header,
+      pose);
+}
+
+flatbuffers::Offset<PoseWithCovarianceStamped> CreatePoseWithCovarianceStamped(flatbuffers::FlatBufferBuilder &_fbb, const PoseWithCovarianceStampedT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct Vector3T : public flatbuffers::NativeTable {
   typedef Vector3 TableType;
