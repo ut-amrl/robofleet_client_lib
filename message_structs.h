@@ -40,5 +40,4 @@ struct CompressedImage {
 	Header header;
 	std::string format;
 	std::vector<uint8_t> data;
-	//uint8_t data[];
 };
