@@ -1,6 +1,7 @@
 #pragma once
 #include<cstdint>
 #include<string>
+#include<vector>
 
 struct RobofleetSubscription {
 	std::string topic_regex;
@@ -22,14 +23,19 @@ struct RobotStatus {
 	std::string location;
 };
 
-
 /*
  * ROS message clones
  */
 // std_msgs
+struct Time {
+	uint32_t _sec;
+	uint32_t _nsec;
+};
+
 struct Header {
-	std::string frame_id;
 	uint32_t seq;
+	Time stamp;
+	std::string frame_id;
 };
 
 // geometry_msgs
@@ -93,4 +99,10 @@ struct Odometry {
 	std::string child_frame_id;
 	PoseWithCovariance pose;
 	TwistWithCovariance twist;
+
+// sensor_msgs
+struct CompressedImage {
+	Header header;
+	std::string format;
+	std::vector<uint8_t> data;
 };

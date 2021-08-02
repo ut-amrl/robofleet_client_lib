@@ -31,6 +31,32 @@ static void decode_vector(const Vsrc* const src_vector_ptr, Vdst& dst_vector) {
 // *** specializations below ***
 
 template <>
+struct flatbuffers_type_for<Time> {
+    typedef fb::RosTime type;
+};
+template <>
+Time decode(const fb::RosTime* const src) {
+    Time dst;
+    dst._sec = src->secs();
+    dst._nsec = src->nsecs();
+    return dst;
+}
+
+template <>
+struct flatbuffers_type_for<Header> {
+    typedef fb::std_msgs::Header type;
+};
+template <>
+Header decode(const fb::std_msgs::Header* const src) {
+    Header dst;
+    dst.frame_id = src->frame_id()->str();
+    dst.seq = src->seq();
+    dst.stamp = decode<Time>(src->stamp());
+    return dst;
+}
+
+
+template <>
 struct flatbuffers_type_for<RobotStatus> {
   typedef fb::amrl_msgs::RobofleetStatus type;
 };
@@ -80,6 +106,21 @@ PoseStamped decode(
     dst.pose.quaternion.z = src->pose()->orientation()->z();
     dst.pose.quaternion.w = src->pose()->orientation()->z();
     dst.header.frame_id = src->header()->frame_id()->str();
+    return dst;
+}
+
+template <>
+struct flatbuffers_type_for<CompressedImage> {
+    typedef fb::sensor_msgs::CompressedImage type;
+};
+template <>
+CompressedImage decode(
+    const fb::sensor_msgs::CompressedImage* const src) {
+    CompressedImage dst;
+    dst.header = decode<Header>(src->header());
+    dst.data.resize(src->data()->size());
+    std::copy(src->data()->begin(), src->data()->end(), dst.data.begin());
+    dst.format = src->format()->str();
     return dst;
 }
 
