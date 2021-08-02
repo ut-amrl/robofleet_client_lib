@@ -99,6 +99,7 @@ struct Odometry {
 	std::string child_frame_id;
 	PoseWithCovariance pose;
 	TwistWithCovariance twist;
+};
 
 // sensor_msgs
 struct CompressedImage {
