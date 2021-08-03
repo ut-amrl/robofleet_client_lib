@@ -86,6 +86,29 @@ RobotLocation decode(
     return dst;
 }
 
+/*
+ * geometry_msgs
+ */
+
+template <>
+struct flatbuffers_type_for<PoseStamped> {
+    typedef fb::geometry_msgs::PoseStamped type;
+};
+template <>
+PoseStamped decode(
+    const fb::geometry_msgs::PoseStamped* const src) {
+    PoseStamped dst;
+    dst.pose.point.x = src->pose()->position()->x();
+    dst.pose.point.y = src->pose()->position()->y();
+    dst.pose.point.z = src->pose()->position()->z();
+    dst.pose.quaternion.x = src->pose()->orientation()->x();
+    dst.pose.quaternion.y = src->pose()->orientation()->y();
+    dst.pose.quaternion.z = src->pose()->orientation()->z();
+    dst.pose.quaternion.w = src->pose()->orientation()->z();
+    dst.header.frame_id = src->header()->frame_id()->str();
+    return dst;
+}
+
 template <>
 struct flatbuffers_type_for<CompressedImage> {
     typedef fb::sensor_msgs::CompressedImage type;
