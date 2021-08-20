@@ -66,3 +66,27 @@ flatbuffers::uoffset_t encode(
              fbb, metadata, msg.topic_regex.c_str(), msg.action)
       .o;
 }
+
+// detection_msgs/DetectedItem
+template <>
+flatbuffers::uoffset_t encode(
+    FBB& fbb, const detection_msgs::DetectedItem& msg, const MetadataOffset& metadata) {
+
+    auto name = fbb.CreateString(msg.name);
+    auto repID = fbb.CreateString(msg.repID);
+    auto anchorID = fbb.CreateString(msg.anchorID);
+
+    return fb::detection_msgs::CreateDetectedItem(
+        fbb,
+        metadata,
+        name,
+        repID,
+        anchorID,
+        msg.x,
+        msg.y,
+        msg.z,
+        msg.lat,
+        msg.lon,
+        msg.elv,
+        encode(fbb, msg.cmpr_image, 0)).o;
+}
