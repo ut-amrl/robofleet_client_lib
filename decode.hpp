@@ -124,3 +124,23 @@ CompressedImage decode(
     return dst;
 }
 
+// detection_msgs/DetectedItem 
+template <>
+struct flatbuffers_type_for<DetectedItem> {
+    typedef fb::detection_msgs::DetectedItem type;
+};
+template <>
+DetectedItem decode(const fb::detection_msgs::DetectedItem* const src) {
+    DetectedItem dst;
+    dst.name = src->name()->str();
+    dst.repID = src->repID()->str();
+    dst.anchorID = src->anchorID()->str();
+    dst.x = src->x();
+    dst.y = src->y();
+    dst.z = src->z();
+    dst.lat = src->lat();
+    dst.lon = src->lon();
+    dst.elv = src->elv();
+    dst.cmpr_image = decode<CompressedImage>(src->cmpr_image());
+    return dst;
+}

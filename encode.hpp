@@ -5,6 +5,7 @@
 #include <flatbuffers/flatbuffers.h>
 #include <algorithm>
 
+
 using FBB = flatbuffers::FlatBufferBuilder;
 using MetadataOffset = flatbuffers::Offset<fb::MsgMetadata>;
 
@@ -66,3 +67,4 @@ flatbuffers::uoffset_t encode(
              fbb, metadata, msg.topic_regex.c_str(), msg.action)
       .o;
 }
+
