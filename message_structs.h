@@ -107,3 +107,17 @@ struct CompressedImage {
 	std::string format;
 	std::vector<uint8_t> data;
 };
+
+// modified atak dectection_msgs 
+struct DetectedItem {
+	std::string name;
+	std::string repID;
+	std::string anchorID;
+	float x;
+	float y;
+	float z;
+	float lat;
+	float lon;
+	float elv;
+	CompressedImage cmpr_image;
+};
