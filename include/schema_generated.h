@@ -162,6 +162,18 @@ struct PoseWithCovarianceStamped;
 struct PoseWithCovarianceStampedBuilder;
 struct PoseWithCovarianceStampedT;
 
+}  // namespace geometry_msgs
+
+namespace nav_msgs {
+
+struct Path;
+struct PathBuilder;
+struct PathT;
+
+}  // namespace nav_msgs
+
+namespace geometry_msgs {
+
 struct Vector3;
 struct Vector3Builder;
 struct Vector3T;
@@ -4532,6 +4544,109 @@ inline flatbuffers::Offset<PoseWithCovarianceStamped> CreatePoseWithCovarianceSt
 
 flatbuffers::Offset<PoseWithCovarianceStamped> CreatePoseWithCovarianceStamped(flatbuffers::FlatBufferBuilder &_fbb, const PoseWithCovarianceStampedT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+}  // namespace geometry_msgs
+
+namespace nav_msgs {
+
+struct PathT : public flatbuffers::NativeTable {
+  typedef Path TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  std::unique_ptr<fb::std_msgs::HeaderT> header;
+  std::vector<std::unique_ptr<fb::geometry_msgs::PoseStampedT>> poses;
+  PathT() {
+  }
+};
+
+struct Path FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef PathT NativeTableType;
+  typedef PathBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_HEADER = 6,
+    VT_POSES = 8
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  const fb::std_msgs::Header *header() const {
+    return GetPointer<const fb::std_msgs::Header *>(VT_HEADER);
+  }
+  const flatbuffers::Vector<flatbuffers::Offset<fb::geometry_msgs::PoseStamped>> *poses() const {
+    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<fb::geometry_msgs::PoseStamped>> *>(VT_POSES);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyOffsetRequired(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
+           VerifyOffsetRequired(verifier, VT_POSES) &&
+           verifier.VerifyVector(poses()) &&
+           verifier.VerifyVectorOfTables(poses()) &&
+           verifier.EndTable();
+  }
+  PathT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PathT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Path> Pack(flatbuffers::FlatBufferBuilder &_fbb, const PathT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct PathBuilder {
+  typedef Path Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(Path::VT___METADATA, __metadata);
+  }
+  void add_header(flatbuffers::Offset<fb::std_msgs::Header> header) {
+    fbb_.AddOffset(Path::VT_HEADER, header);
+  }
+  void add_poses(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::geometry_msgs::PoseStamped>>> poses) {
+    fbb_.AddOffset(Path::VT_POSES, poses);
+  }
+  explicit PathBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<Path> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<Path>(end);
+    fbb_.Required(o, Path::VT_HEADER);
+    fbb_.Required(o, Path::VT_POSES);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<Path> CreatePath(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::Header> header = 0,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::geometry_msgs::PoseStamped>>> poses = 0) {
+  PathBuilder builder_(_fbb);
+  builder_.add_poses(poses);
+  builder_.add_header(header);
+  builder_.add___metadata(__metadata);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<Path> CreatePathDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::Header> header = 0,
+    const std::vector<flatbuffers::Offset<fb::geometry_msgs::PoseStamped>> *poses = nullptr) {
+  auto poses__ = poses ? _fbb.CreateVector<flatbuffers::Offset<fb::geometry_msgs::PoseStamped>>(*poses) : 0;
+  return fb::nav_msgs::CreatePath(
+      _fbb,
+      __metadata,
+      header,
+      poses__);
+}
+
+flatbuffers::Offset<Path> CreatePath(flatbuffers::FlatBufferBuilder &_fbb, const PathT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+}  // namespace nav_msgs
+
+namespace geometry_msgs {
+
 struct Vector3T : public flatbuffers::NativeTable {
   typedef Vector3 TableType;
   std::unique_ptr<fb::MsgMetadataT> __metadata;
@@ -6077,6 +6192,46 @@ inline flatbuffers::Offset<PoseWithCovarianceStamped> CreatePoseWithCovarianceSt
       _header,
       _pose);
 }
+
+}  // namespace geometry_msgs
+
+namespace nav_msgs {
+
+inline PathT *Path::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<fb::nav_msgs::PathT> _o = std::unique_ptr<fb::nav_msgs::PathT>(new PathT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Path::UnPackTo(PathT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = header(); if (_e) _o->header = std::unique_ptr<fb::std_msgs::HeaderT>(_e->UnPack(_resolver)); }
+  { auto _e = poses(); if (_e) { _o->poses.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->poses[_i] = std::unique_ptr<fb::geometry_msgs::PoseStampedT>(_e->Get(_i)->UnPack(_resolver)); } } }
+}
+
+inline flatbuffers::Offset<Path> Path::Pack(flatbuffers::FlatBufferBuilder &_fbb, const PathT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatePath(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<Path> CreatePath(flatbuffers::FlatBufferBuilder &_fbb, const PathT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const PathT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
+  auto _poses = _fbb.CreateVector<flatbuffers::Offset<fb::geometry_msgs::PoseStamped>> (_o->poses.size(), [](size_t i, _VectorArgs *__va) { return CreatePoseStamped(*__va->__fbb, __va->__o->poses[i].get(), __va->__rehasher); }, &_va );
+  return fb::nav_msgs::CreatePath(
+      _fbb,
+      ___metadata,
+      _header,
+      _poses);
+}
+
+}  // namespace nav_msgs
+
+namespace geometry_msgs {
 
 inline Vector3T *Vector3::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   std::unique_ptr<fb::geometry_msgs::Vector3T> _o = std::unique_ptr<fb::geometry_msgs::Vector3T>(new Vector3T());
