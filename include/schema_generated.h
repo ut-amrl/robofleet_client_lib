@@ -62,6 +62,26 @@ struct Localization2DMsg;
 struct Localization2DMsgBuilder;
 struct Localization2DMsgT;
 
+struct SensorStatus;
+struct SensorStatusBuilder;
+struct SensorStatusT;
+
+struct SensorHealth;
+struct SensorHealthBuilder;
+struct SensorHealthT;
+
+struct SystemHealth;
+struct SystemHealthBuilder;
+struct SystemHealthT;
+
+struct SystemLog;
+struct SystemLogBuilder;
+struct SystemLogT;
+
+struct CACCStatus;
+struct CACCStatusBuilder;
+struct CACCStatusT;
+
 struct PathVisualization;
 struct PathVisualizationBuilder;
 struct PathVisualizationT;
@@ -121,6 +141,18 @@ namespace std_msgs {
 struct String;
 struct StringBuilder;
 struct StringT;
+
+struct MultiArrayDimension;
+struct MultiArrayDimensionBuilder;
+struct MultiArrayDimensionT;
+
+struct MultiArrayLayout;
+struct MultiArrayLayoutBuilder;
+struct MultiArrayLayoutT;
+
+struct ByteMultiArray;
+struct ByteMultiArrayBuilder;
+struct ByteMultiArrayT;
 
 }  // namespace std_msgs
 
@@ -2153,6 +2185,553 @@ inline flatbuffers::Offset<Localization2DMsg> CreateLocalization2DMsgDirect(
 
 flatbuffers::Offset<Localization2DMsg> CreateLocalization2DMsg(flatbuffers::FlatBufferBuilder &_fbb, const Localization2DMsgT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct SensorStatusT : public flatbuffers::NativeTable {
+  typedef SensorStatus TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  std::unique_ptr<fb::std_msgs::HeaderT> header;
+  std::string sensorid;
+  float frequency;
+  float std;
+  float packet_size;
+  int8_t status;
+  SensorStatusT()
+      : frequency(0.0f),
+        std(0.0f),
+        packet_size(0.0f),
+        status(0) {
+  }
+};
+
+struct SensorStatus FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef SensorStatusT NativeTableType;
+  typedef SensorStatusBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_HEADER = 6,
+    VT_SENSORID = 8,
+    VT_FREQUENCY = 10,
+    VT_STD = 12,
+    VT_PACKET_SIZE = 14,
+    VT_STATUS = 16
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  const fb::std_msgs::Header *header() const {
+    return GetPointer<const fb::std_msgs::Header *>(VT_HEADER);
+  }
+  const flatbuffers::String *sensorid() const {
+    return GetPointer<const flatbuffers::String *>(VT_SENSORID);
+  }
+  float frequency() const {
+    return GetField<float>(VT_FREQUENCY, 0.0f);
+  }
+  float std() const {
+    return GetField<float>(VT_STD, 0.0f);
+  }
+  float packet_size() const {
+    return GetField<float>(VT_PACKET_SIZE, 0.0f);
+  }
+  int8_t status() const {
+    return GetField<int8_t>(VT_STATUS, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyOffsetRequired(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
+           VerifyOffsetRequired(verifier, VT_SENSORID) &&
+           verifier.VerifyString(sensorid()) &&
+           VerifyField<float>(verifier, VT_FREQUENCY) &&
+           VerifyField<float>(verifier, VT_STD) &&
+           VerifyField<float>(verifier, VT_PACKET_SIZE) &&
+           VerifyField<int8_t>(verifier, VT_STATUS) &&
+           verifier.EndTable();
+  }
+  SensorStatusT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(SensorStatusT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<SensorStatus> Pack(flatbuffers::FlatBufferBuilder &_fbb, const SensorStatusT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct SensorStatusBuilder {
+  typedef SensorStatus Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(SensorStatus::VT___METADATA, __metadata);
+  }
+  void add_header(flatbuffers::Offset<fb::std_msgs::Header> header) {
+    fbb_.AddOffset(SensorStatus::VT_HEADER, header);
+  }
+  void add_sensorid(flatbuffers::Offset<flatbuffers::String> sensorid) {
+    fbb_.AddOffset(SensorStatus::VT_SENSORID, sensorid);
+  }
+  void add_frequency(float frequency) {
+    fbb_.AddElement<float>(SensorStatus::VT_FREQUENCY, frequency, 0.0f);
+  }
+  void add_std(float std) {
+    fbb_.AddElement<float>(SensorStatus::VT_STD, std, 0.0f);
+  }
+  void add_packet_size(float packet_size) {
+    fbb_.AddElement<float>(SensorStatus::VT_PACKET_SIZE, packet_size, 0.0f);
+  }
+  void add_status(int8_t status) {
+    fbb_.AddElement<int8_t>(SensorStatus::VT_STATUS, status, 0);
+  }
+  explicit SensorStatusBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<SensorStatus> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<SensorStatus>(end);
+    fbb_.Required(o, SensorStatus::VT_HEADER);
+    fbb_.Required(o, SensorStatus::VT_SENSORID);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<SensorStatus> CreateSensorStatus(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::Header> header = 0,
+    flatbuffers::Offset<flatbuffers::String> sensorid = 0,
+    float frequency = 0.0f,
+    float std = 0.0f,
+    float packet_size = 0.0f,
+    int8_t status = 0) {
+  SensorStatusBuilder builder_(_fbb);
+  builder_.add_packet_size(packet_size);
+  builder_.add_std(std);
+  builder_.add_frequency(frequency);
+  builder_.add_sensorid(sensorid);
+  builder_.add_header(header);
+  builder_.add___metadata(__metadata);
+  builder_.add_status(status);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<SensorStatus> CreateSensorStatusDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::Header> header = 0,
+    const char *sensorid = nullptr,
+    float frequency = 0.0f,
+    float std = 0.0f,
+    float packet_size = 0.0f,
+    int8_t status = 0) {
+  auto sensorid__ = sensorid ? _fbb.CreateString(sensorid) : 0;
+  return fb::amrl_msgs::CreateSensorStatus(
+      _fbb,
+      __metadata,
+      header,
+      sensorid__,
+      frequency,
+      std,
+      packet_size,
+      status);
+}
+
+flatbuffers::Offset<SensorStatus> CreateSensorStatus(flatbuffers::FlatBufferBuilder &_fbb, const SensorStatusT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct SensorHealthT : public flatbuffers::NativeTable {
+  typedef SensorHealth TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  std::unique_ptr<fb::std_msgs::HeaderT> header;
+  std::vector<std::unique_ptr<fb::amrl_msgs::SensorStatusT>> healths;
+  SensorHealthT() {
+  }
+};
+
+struct SensorHealth FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef SensorHealthT NativeTableType;
+  typedef SensorHealthBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_HEADER = 6,
+    VT_HEALTHS = 8
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  const fb::std_msgs::Header *header() const {
+    return GetPointer<const fb::std_msgs::Header *>(VT_HEADER);
+  }
+  const flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::SensorStatus>> *healths() const {
+    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::SensorStatus>> *>(VT_HEALTHS);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyOffsetRequired(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
+           VerifyOffsetRequired(verifier, VT_HEALTHS) &&
+           verifier.VerifyVector(healths()) &&
+           verifier.VerifyVectorOfTables(healths()) &&
+           verifier.EndTable();
+  }
+  SensorHealthT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(SensorHealthT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<SensorHealth> Pack(flatbuffers::FlatBufferBuilder &_fbb, const SensorHealthT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct SensorHealthBuilder {
+  typedef SensorHealth Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(SensorHealth::VT___METADATA, __metadata);
+  }
+  void add_header(flatbuffers::Offset<fb::std_msgs::Header> header) {
+    fbb_.AddOffset(SensorHealth::VT_HEADER, header);
+  }
+  void add_healths(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::SensorStatus>>> healths) {
+    fbb_.AddOffset(SensorHealth::VT_HEALTHS, healths);
+  }
+  explicit SensorHealthBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<SensorHealth> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<SensorHealth>(end);
+    fbb_.Required(o, SensorHealth::VT_HEADER);
+    fbb_.Required(o, SensorHealth::VT_HEALTHS);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<SensorHealth> CreateSensorHealth(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::Header> header = 0,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::SensorStatus>>> healths = 0) {
+  SensorHealthBuilder builder_(_fbb);
+  builder_.add_healths(healths);
+  builder_.add_header(header);
+  builder_.add___metadata(__metadata);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<SensorHealth> CreateSensorHealthDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::Header> header = 0,
+    const std::vector<flatbuffers::Offset<fb::amrl_msgs::SensorStatus>> *healths = nullptr) {
+  auto healths__ = healths ? _fbb.CreateVector<flatbuffers::Offset<fb::amrl_msgs::SensorStatus>>(*healths) : 0;
+  return fb::amrl_msgs::CreateSensorHealth(
+      _fbb,
+      __metadata,
+      header,
+      healths__);
+}
+
+flatbuffers::Offset<SensorHealth> CreateSensorHealth(flatbuffers::FlatBufferBuilder &_fbb, const SensorHealthT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct SystemHealthT : public flatbuffers::NativeTable {
+  typedef SystemHealth TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  std::unique_ptr<fb::std_msgs::HeaderT> header;
+  int8_t pcm_propulsion;
+  int8_t pcm_highvoltage;
+  int8_t cav_longitudinal;
+  int8_t cav_lateral;
+  int8_t cav_v2x;
+  SystemHealthT()
+      : pcm_propulsion(0),
+        pcm_highvoltage(0),
+        cav_longitudinal(0),
+        cav_lateral(0),
+        cav_v2x(0) {
+  }
+};
+
+struct SystemHealth FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef SystemHealthT NativeTableType;
+  typedef SystemHealthBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_HEADER = 6,
+    VT_PCM_PROPULSION = 8,
+    VT_PCM_HIGHVOLTAGE = 10,
+    VT_CAV_LONGITUDINAL = 12,
+    VT_CAV_LATERAL = 14,
+    VT_CAV_V2X = 16
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  const fb::std_msgs::Header *header() const {
+    return GetPointer<const fb::std_msgs::Header *>(VT_HEADER);
+  }
+  int8_t pcm_propulsion() const {
+    return GetField<int8_t>(VT_PCM_PROPULSION, 0);
+  }
+  int8_t pcm_highvoltage() const {
+    return GetField<int8_t>(VT_PCM_HIGHVOLTAGE, 0);
+  }
+  int8_t cav_longitudinal() const {
+    return GetField<int8_t>(VT_CAV_LONGITUDINAL, 0);
+  }
+  int8_t cav_lateral() const {
+    return GetField<int8_t>(VT_CAV_LATERAL, 0);
+  }
+  int8_t cav_v2x() const {
+    return GetField<int8_t>(VT_CAV_V2X, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyOffsetRequired(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
+           VerifyField<int8_t>(verifier, VT_PCM_PROPULSION) &&
+           VerifyField<int8_t>(verifier, VT_PCM_HIGHVOLTAGE) &&
+           VerifyField<int8_t>(verifier, VT_CAV_LONGITUDINAL) &&
+           VerifyField<int8_t>(verifier, VT_CAV_LATERAL) &&
+           VerifyField<int8_t>(verifier, VT_CAV_V2X) &&
+           verifier.EndTable();
+  }
+  SystemHealthT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(SystemHealthT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<SystemHealth> Pack(flatbuffers::FlatBufferBuilder &_fbb, const SystemHealthT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct SystemHealthBuilder {
+  typedef SystemHealth Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(SystemHealth::VT___METADATA, __metadata);
+  }
+  void add_header(flatbuffers::Offset<fb::std_msgs::Header> header) {
+    fbb_.AddOffset(SystemHealth::VT_HEADER, header);
+  }
+  void add_pcm_propulsion(int8_t pcm_propulsion) {
+    fbb_.AddElement<int8_t>(SystemHealth::VT_PCM_PROPULSION, pcm_propulsion, 0);
+  }
+  void add_pcm_highvoltage(int8_t pcm_highvoltage) {
+    fbb_.AddElement<int8_t>(SystemHealth::VT_PCM_HIGHVOLTAGE, pcm_highvoltage, 0);
+  }
+  void add_cav_longitudinal(int8_t cav_longitudinal) {
+    fbb_.AddElement<int8_t>(SystemHealth::VT_CAV_LONGITUDINAL, cav_longitudinal, 0);
+  }
+  void add_cav_lateral(int8_t cav_lateral) {
+    fbb_.AddElement<int8_t>(SystemHealth::VT_CAV_LATERAL, cav_lateral, 0);
+  }
+  void add_cav_v2x(int8_t cav_v2x) {
+    fbb_.AddElement<int8_t>(SystemHealth::VT_CAV_V2X, cav_v2x, 0);
+  }
+  explicit SystemHealthBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<SystemHealth> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<SystemHealth>(end);
+    fbb_.Required(o, SystemHealth::VT_HEADER);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<SystemHealth> CreateSystemHealth(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::Header> header = 0,
+    int8_t pcm_propulsion = 0,
+    int8_t pcm_highvoltage = 0,
+    int8_t cav_longitudinal = 0,
+    int8_t cav_lateral = 0,
+    int8_t cav_v2x = 0) {
+  SystemHealthBuilder builder_(_fbb);
+  builder_.add_header(header);
+  builder_.add___metadata(__metadata);
+  builder_.add_cav_v2x(cav_v2x);
+  builder_.add_cav_lateral(cav_lateral);
+  builder_.add_cav_longitudinal(cav_longitudinal);
+  builder_.add_pcm_highvoltage(pcm_highvoltage);
+  builder_.add_pcm_propulsion(pcm_propulsion);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<SystemHealth> CreateSystemHealth(flatbuffers::FlatBufferBuilder &_fbb, const SystemHealthT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct SystemLogT : public flatbuffers::NativeTable {
+  typedef SystemLog TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  std::unique_ptr<fb::std_msgs::HeaderT> header;
+  std::string log;
+  SystemLogT() {
+  }
+};
+
+struct SystemLog FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef SystemLogT NativeTableType;
+  typedef SystemLogBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_HEADER = 6,
+    VT_LOG = 8
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  const fb::std_msgs::Header *header() const {
+    return GetPointer<const fb::std_msgs::Header *>(VT_HEADER);
+  }
+  const flatbuffers::String *log() const {
+    return GetPointer<const flatbuffers::String *>(VT_LOG);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyOffsetRequired(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
+           VerifyOffsetRequired(verifier, VT_LOG) &&
+           verifier.VerifyString(log()) &&
+           verifier.EndTable();
+  }
+  SystemLogT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(SystemLogT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<SystemLog> Pack(flatbuffers::FlatBufferBuilder &_fbb, const SystemLogT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct SystemLogBuilder {
+  typedef SystemLog Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(SystemLog::VT___METADATA, __metadata);
+  }
+  void add_header(flatbuffers::Offset<fb::std_msgs::Header> header) {
+    fbb_.AddOffset(SystemLog::VT_HEADER, header);
+  }
+  void add_log(flatbuffers::Offset<flatbuffers::String> log) {
+    fbb_.AddOffset(SystemLog::VT_LOG, log);
+  }
+  explicit SystemLogBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<SystemLog> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<SystemLog>(end);
+    fbb_.Required(o, SystemLog::VT_HEADER);
+    fbb_.Required(o, SystemLog::VT_LOG);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<SystemLog> CreateSystemLog(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::Header> header = 0,
+    flatbuffers::Offset<flatbuffers::String> log = 0) {
+  SystemLogBuilder builder_(_fbb);
+  builder_.add_log(log);
+  builder_.add_header(header);
+  builder_.add___metadata(__metadata);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<SystemLog> CreateSystemLogDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::Header> header = 0,
+    const char *log = nullptr) {
+  auto log__ = log ? _fbb.CreateString(log) : 0;
+  return fb::amrl_msgs::CreateSystemLog(
+      _fbb,
+      __metadata,
+      header,
+      log__);
+}
+
+flatbuffers::Offset<SystemLog> CreateSystemLog(flatbuffers::FlatBufferBuilder &_fbb, const SystemLogT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct CACCStatusT : public flatbuffers::NativeTable {
+  typedef CACCStatus TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  std::unique_ptr<fb::std_msgs::HeaderT> header;
+  int8_t status;
+  CACCStatusT()
+      : status(0) {
+  }
+};
+
+struct CACCStatus FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef CACCStatusT NativeTableType;
+  typedef CACCStatusBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_HEADER = 6,
+    VT_STATUS = 8
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  const fb::std_msgs::Header *header() const {
+    return GetPointer<const fb::std_msgs::Header *>(VT_HEADER);
+  }
+  int8_t status() const {
+    return GetField<int8_t>(VT_STATUS, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyOffsetRequired(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
+           VerifyField<int8_t>(verifier, VT_STATUS) &&
+           verifier.EndTable();
+  }
+  CACCStatusT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(CACCStatusT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<CACCStatus> Pack(flatbuffers::FlatBufferBuilder &_fbb, const CACCStatusT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct CACCStatusBuilder {
+  typedef CACCStatus Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(CACCStatus::VT___METADATA, __metadata);
+  }
+  void add_header(flatbuffers::Offset<fb::std_msgs::Header> header) {
+    fbb_.AddOffset(CACCStatus::VT_HEADER, header);
+  }
+  void add_status(int8_t status) {
+    fbb_.AddElement<int8_t>(CACCStatus::VT_STATUS, status, 0);
+  }
+  explicit CACCStatusBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<CACCStatus> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<CACCStatus>(end);
+    fbb_.Required(o, CACCStatus::VT_HEADER);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<CACCStatus> CreateCACCStatus(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::Header> header = 0,
+    int8_t status = 0) {
+  CACCStatusBuilder builder_(_fbb);
+  builder_.add_header(header);
+  builder_.add___metadata(__metadata);
+  builder_.add_status(status);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<CACCStatus> CreateCACCStatus(flatbuffers::FlatBufferBuilder &_fbb, const CACCStatusT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 struct PathVisualizationT : public flatbuffers::NativeTable {
   typedef PathVisualization TableType;
   std::unique_ptr<fb::MsgMetadataT> __metadata;
@@ -3756,6 +4335,301 @@ inline flatbuffers::Offset<String> CreateStringDirect(
 
 flatbuffers::Offset<String> CreateString(flatbuffers::FlatBufferBuilder &_fbb, const StringT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct MultiArrayDimensionT : public flatbuffers::NativeTable {
+  typedef MultiArrayDimension TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  std::string label;
+  uint32_t size;
+  uint32_t stride;
+  MultiArrayDimensionT()
+      : size(0),
+        stride(0) {
+  }
+};
+
+struct MultiArrayDimension FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef MultiArrayDimensionT NativeTableType;
+  typedef MultiArrayDimensionBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_LABEL = 6,
+    VT_SIZE = 8,
+    VT_STRIDE = 10
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  const flatbuffers::String *label() const {
+    return GetPointer<const flatbuffers::String *>(VT_LABEL);
+  }
+  uint32_t size() const {
+    return GetField<uint32_t>(VT_SIZE, 0);
+  }
+  uint32_t stride() const {
+    return GetField<uint32_t>(VT_STRIDE, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyOffsetRequired(verifier, VT_LABEL) &&
+           verifier.VerifyString(label()) &&
+           VerifyField<uint32_t>(verifier, VT_SIZE) &&
+           VerifyField<uint32_t>(verifier, VT_STRIDE) &&
+           verifier.EndTable();
+  }
+  MultiArrayDimensionT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(MultiArrayDimensionT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<MultiArrayDimension> Pack(flatbuffers::FlatBufferBuilder &_fbb, const MultiArrayDimensionT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct MultiArrayDimensionBuilder {
+  typedef MultiArrayDimension Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(MultiArrayDimension::VT___METADATA, __metadata);
+  }
+  void add_label(flatbuffers::Offset<flatbuffers::String> label) {
+    fbb_.AddOffset(MultiArrayDimension::VT_LABEL, label);
+  }
+  void add_size(uint32_t size) {
+    fbb_.AddElement<uint32_t>(MultiArrayDimension::VT_SIZE, size, 0);
+  }
+  void add_stride(uint32_t stride) {
+    fbb_.AddElement<uint32_t>(MultiArrayDimension::VT_STRIDE, stride, 0);
+  }
+  explicit MultiArrayDimensionBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<MultiArrayDimension> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<MultiArrayDimension>(end);
+    fbb_.Required(o, MultiArrayDimension::VT_LABEL);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<MultiArrayDimension> CreateMultiArrayDimension(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<flatbuffers::String> label = 0,
+    uint32_t size = 0,
+    uint32_t stride = 0) {
+  MultiArrayDimensionBuilder builder_(_fbb);
+  builder_.add_stride(stride);
+  builder_.add_size(size);
+  builder_.add_label(label);
+  builder_.add___metadata(__metadata);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<MultiArrayDimension> CreateMultiArrayDimensionDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    const char *label = nullptr,
+    uint32_t size = 0,
+    uint32_t stride = 0) {
+  auto label__ = label ? _fbb.CreateString(label) : 0;
+  return fb::std_msgs::CreateMultiArrayDimension(
+      _fbb,
+      __metadata,
+      label__,
+      size,
+      stride);
+}
+
+flatbuffers::Offset<MultiArrayDimension> CreateMultiArrayDimension(flatbuffers::FlatBufferBuilder &_fbb, const MultiArrayDimensionT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct MultiArrayLayoutT : public flatbuffers::NativeTable {
+  typedef MultiArrayLayout TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  std::vector<std::unique_ptr<fb::std_msgs::MultiArrayDimensionT>> dim;
+  uint32_t data_offset;
+  MultiArrayLayoutT()
+      : data_offset(0) {
+  }
+};
+
+struct MultiArrayLayout FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef MultiArrayLayoutT NativeTableType;
+  typedef MultiArrayLayoutBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_DIM = 6,
+    VT_DATA_OFFSET = 8
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  const flatbuffers::Vector<flatbuffers::Offset<fb::std_msgs::MultiArrayDimension>> *dim() const {
+    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<fb::std_msgs::MultiArrayDimension>> *>(VT_DIM);
+  }
+  uint32_t data_offset() const {
+    return GetField<uint32_t>(VT_DATA_OFFSET, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyOffsetRequired(verifier, VT_DIM) &&
+           verifier.VerifyVector(dim()) &&
+           verifier.VerifyVectorOfTables(dim()) &&
+           VerifyField<uint32_t>(verifier, VT_DATA_OFFSET) &&
+           verifier.EndTable();
+  }
+  MultiArrayLayoutT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(MultiArrayLayoutT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<MultiArrayLayout> Pack(flatbuffers::FlatBufferBuilder &_fbb, const MultiArrayLayoutT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct MultiArrayLayoutBuilder {
+  typedef MultiArrayLayout Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(MultiArrayLayout::VT___METADATA, __metadata);
+  }
+  void add_dim(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::std_msgs::MultiArrayDimension>>> dim) {
+    fbb_.AddOffset(MultiArrayLayout::VT_DIM, dim);
+  }
+  void add_data_offset(uint32_t data_offset) {
+    fbb_.AddElement<uint32_t>(MultiArrayLayout::VT_DATA_OFFSET, data_offset, 0);
+  }
+  explicit MultiArrayLayoutBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<MultiArrayLayout> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<MultiArrayLayout>(end);
+    fbb_.Required(o, MultiArrayLayout::VT_DIM);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<MultiArrayLayout> CreateMultiArrayLayout(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::std_msgs::MultiArrayDimension>>> dim = 0,
+    uint32_t data_offset = 0) {
+  MultiArrayLayoutBuilder builder_(_fbb);
+  builder_.add_data_offset(data_offset);
+  builder_.add_dim(dim);
+  builder_.add___metadata(__metadata);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<MultiArrayLayout> CreateMultiArrayLayoutDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    const std::vector<flatbuffers::Offset<fb::std_msgs::MultiArrayDimension>> *dim = nullptr,
+    uint32_t data_offset = 0) {
+  auto dim__ = dim ? _fbb.CreateVector<flatbuffers::Offset<fb::std_msgs::MultiArrayDimension>>(*dim) : 0;
+  return fb::std_msgs::CreateMultiArrayLayout(
+      _fbb,
+      __metadata,
+      dim__,
+      data_offset);
+}
+
+flatbuffers::Offset<MultiArrayLayout> CreateMultiArrayLayout(flatbuffers::FlatBufferBuilder &_fbb, const MultiArrayLayoutT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct ByteMultiArrayT : public flatbuffers::NativeTable {
+  typedef ByteMultiArray TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  std::unique_ptr<fb::std_msgs::MultiArrayLayoutT> layout;
+  std::vector<int8_t> data;
+  ByteMultiArrayT() {
+  }
+};
+
+struct ByteMultiArray FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef ByteMultiArrayT NativeTableType;
+  typedef ByteMultiArrayBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_LAYOUT = 6,
+    VT_DATA = 8
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  const fb::std_msgs::MultiArrayLayout *layout() const {
+    return GetPointer<const fb::std_msgs::MultiArrayLayout *>(VT_LAYOUT);
+  }
+  const flatbuffers::Vector<int8_t> *data() const {
+    return GetPointer<const flatbuffers::Vector<int8_t> *>(VT_DATA);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyOffsetRequired(verifier, VT_LAYOUT) &&
+           verifier.VerifyTable(layout()) &&
+           VerifyOffsetRequired(verifier, VT_DATA) &&
+           verifier.VerifyVector(data()) &&
+           verifier.EndTable();
+  }
+  ByteMultiArrayT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ByteMultiArrayT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<ByteMultiArray> Pack(flatbuffers::FlatBufferBuilder &_fbb, const ByteMultiArrayT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct ByteMultiArrayBuilder {
+  typedef ByteMultiArray Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(ByteMultiArray::VT___METADATA, __metadata);
+  }
+  void add_layout(flatbuffers::Offset<fb::std_msgs::MultiArrayLayout> layout) {
+    fbb_.AddOffset(ByteMultiArray::VT_LAYOUT, layout);
+  }
+  void add_data(flatbuffers::Offset<flatbuffers::Vector<int8_t>> data) {
+    fbb_.AddOffset(ByteMultiArray::VT_DATA, data);
+  }
+  explicit ByteMultiArrayBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<ByteMultiArray> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<ByteMultiArray>(end);
+    fbb_.Required(o, ByteMultiArray::VT_LAYOUT);
+    fbb_.Required(o, ByteMultiArray::VT_DATA);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<ByteMultiArray> CreateByteMultiArray(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::MultiArrayLayout> layout = 0,
+    flatbuffers::Offset<flatbuffers::Vector<int8_t>> data = 0) {
+  ByteMultiArrayBuilder builder_(_fbb);
+  builder_.add_data(data);
+  builder_.add_layout(layout);
+  builder_.add___metadata(__metadata);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<ByteMultiArray> CreateByteMultiArrayDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::std_msgs::MultiArrayLayout> layout = 0,
+    const std::vector<int8_t> *data = nullptr) {
+  auto data__ = data ? _fbb.CreateVector<int8_t>(*data) : 0;
+  return fb::std_msgs::CreateByteMultiArray(
+      _fbb,
+      __metadata,
+      layout,
+      data__);
+}
+
+flatbuffers::Offset<ByteMultiArray> CreateByteMultiArray(flatbuffers::FlatBufferBuilder &_fbb, const ByteMultiArrayT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 }  // namespace std_msgs
 
 namespace geometry_msgs {
@@ -5032,6 +5906,190 @@ inline flatbuffers::Offset<Localization2DMsg> CreateLocalization2DMsg(flatbuffer
       _map);
 }
 
+inline SensorStatusT *SensorStatus::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<fb::amrl_msgs::SensorStatusT> _o = std::unique_ptr<fb::amrl_msgs::SensorStatusT>(new SensorStatusT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void SensorStatus::UnPackTo(SensorStatusT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = header(); if (_e) _o->header = std::unique_ptr<fb::std_msgs::HeaderT>(_e->UnPack(_resolver)); }
+  { auto _e = sensorid(); if (_e) _o->sensorid = _e->str(); }
+  { auto _e = frequency(); _o->frequency = _e; }
+  { auto _e = std(); _o->std = _e; }
+  { auto _e = packet_size(); _o->packet_size = _e; }
+  { auto _e = status(); _o->status = _e; }
+}
+
+inline flatbuffers::Offset<SensorStatus> SensorStatus::Pack(flatbuffers::FlatBufferBuilder &_fbb, const SensorStatusT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateSensorStatus(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<SensorStatus> CreateSensorStatus(flatbuffers::FlatBufferBuilder &_fbb, const SensorStatusT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const SensorStatusT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
+  auto _sensorid = _fbb.CreateString(_o->sensorid);
+  auto _frequency = _o->frequency;
+  auto _std = _o->std;
+  auto _packet_size = _o->packet_size;
+  auto _status = _o->status;
+  return fb::amrl_msgs::CreateSensorStatus(
+      _fbb,
+      ___metadata,
+      _header,
+      _sensorid,
+      _frequency,
+      _std,
+      _packet_size,
+      _status);
+}
+
+inline SensorHealthT *SensorHealth::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<fb::amrl_msgs::SensorHealthT> _o = std::unique_ptr<fb::amrl_msgs::SensorHealthT>(new SensorHealthT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void SensorHealth::UnPackTo(SensorHealthT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = header(); if (_e) _o->header = std::unique_ptr<fb::std_msgs::HeaderT>(_e->UnPack(_resolver)); }
+  { auto _e = healths(); if (_e) { _o->healths.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->healths[_i] = std::unique_ptr<fb::amrl_msgs::SensorStatusT>(_e->Get(_i)->UnPack(_resolver)); } } }
+}
+
+inline flatbuffers::Offset<SensorHealth> SensorHealth::Pack(flatbuffers::FlatBufferBuilder &_fbb, const SensorHealthT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateSensorHealth(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<SensorHealth> CreateSensorHealth(flatbuffers::FlatBufferBuilder &_fbb, const SensorHealthT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const SensorHealthT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
+  auto _healths = _fbb.CreateVector<flatbuffers::Offset<fb::amrl_msgs::SensorStatus>> (_o->healths.size(), [](size_t i, _VectorArgs *__va) { return CreateSensorStatus(*__va->__fbb, __va->__o->healths[i].get(), __va->__rehasher); }, &_va );
+  return fb::amrl_msgs::CreateSensorHealth(
+      _fbb,
+      ___metadata,
+      _header,
+      _healths);
+}
+
+inline SystemHealthT *SystemHealth::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<fb::amrl_msgs::SystemHealthT> _o = std::unique_ptr<fb::amrl_msgs::SystemHealthT>(new SystemHealthT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void SystemHealth::UnPackTo(SystemHealthT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = header(); if (_e) _o->header = std::unique_ptr<fb::std_msgs::HeaderT>(_e->UnPack(_resolver)); }
+  { auto _e = pcm_propulsion(); _o->pcm_propulsion = _e; }
+  { auto _e = pcm_highvoltage(); _o->pcm_highvoltage = _e; }
+  { auto _e = cav_longitudinal(); _o->cav_longitudinal = _e; }
+  { auto _e = cav_lateral(); _o->cav_lateral = _e; }
+  { auto _e = cav_v2x(); _o->cav_v2x = _e; }
+}
+
+inline flatbuffers::Offset<SystemHealth> SystemHealth::Pack(flatbuffers::FlatBufferBuilder &_fbb, const SystemHealthT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateSystemHealth(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<SystemHealth> CreateSystemHealth(flatbuffers::FlatBufferBuilder &_fbb, const SystemHealthT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const SystemHealthT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
+  auto _pcm_propulsion = _o->pcm_propulsion;
+  auto _pcm_highvoltage = _o->pcm_highvoltage;
+  auto _cav_longitudinal = _o->cav_longitudinal;
+  auto _cav_lateral = _o->cav_lateral;
+  auto _cav_v2x = _o->cav_v2x;
+  return fb::amrl_msgs::CreateSystemHealth(
+      _fbb,
+      ___metadata,
+      _header,
+      _pcm_propulsion,
+      _pcm_highvoltage,
+      _cav_longitudinal,
+      _cav_lateral,
+      _cav_v2x);
+}
+
+inline SystemLogT *SystemLog::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<fb::amrl_msgs::SystemLogT> _o = std::unique_ptr<fb::amrl_msgs::SystemLogT>(new SystemLogT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void SystemLog::UnPackTo(SystemLogT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = header(); if (_e) _o->header = std::unique_ptr<fb::std_msgs::HeaderT>(_e->UnPack(_resolver)); }
+  { auto _e = log(); if (_e) _o->log = _e->str(); }
+}
+
+inline flatbuffers::Offset<SystemLog> SystemLog::Pack(flatbuffers::FlatBufferBuilder &_fbb, const SystemLogT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateSystemLog(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<SystemLog> CreateSystemLog(flatbuffers::FlatBufferBuilder &_fbb, const SystemLogT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const SystemLogT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
+  auto _log = _fbb.CreateString(_o->log);
+  return fb::amrl_msgs::CreateSystemLog(
+      _fbb,
+      ___metadata,
+      _header,
+      _log);
+}
+
+inline CACCStatusT *CACCStatus::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<fb::amrl_msgs::CACCStatusT> _o = std::unique_ptr<fb::amrl_msgs::CACCStatusT>(new CACCStatusT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void CACCStatus::UnPackTo(CACCStatusT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = header(); if (_e) _o->header = std::unique_ptr<fb::std_msgs::HeaderT>(_e->UnPack(_resolver)); }
+  { auto _e = status(); _o->status = _e; }
+}
+
+inline flatbuffers::Offset<CACCStatus> CACCStatus::Pack(flatbuffers::FlatBufferBuilder &_fbb, const CACCStatusT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateCACCStatus(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<CACCStatus> CreateCACCStatus(flatbuffers::FlatBufferBuilder &_fbb, const CACCStatusT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const CACCStatusT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
+  auto _status = _o->status;
+  return fb::amrl_msgs::CreateCACCStatus(
+      _fbb,
+      ___metadata,
+      _header,
+      _status);
+}
+
 inline PathVisualizationT *PathVisualization::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   std::unique_ptr<fb::amrl_msgs::PathVisualizationT> _o = std::unique_ptr<fb::amrl_msgs::PathVisualizationT>(new PathVisualizationT());
   UnPackTo(_o.get(), _resolver);
@@ -5549,6 +6607,105 @@ inline flatbuffers::Offset<String> CreateString(flatbuffers::FlatBufferBuilder &
   return fb::std_msgs::CreateString(
       _fbb,
       ___metadata,
+      _data);
+}
+
+inline MultiArrayDimensionT *MultiArrayDimension::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<fb::std_msgs::MultiArrayDimensionT> _o = std::unique_ptr<fb::std_msgs::MultiArrayDimensionT>(new MultiArrayDimensionT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void MultiArrayDimension::UnPackTo(MultiArrayDimensionT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = label(); if (_e) _o->label = _e->str(); }
+  { auto _e = size(); _o->size = _e; }
+  { auto _e = stride(); _o->stride = _e; }
+}
+
+inline flatbuffers::Offset<MultiArrayDimension> MultiArrayDimension::Pack(flatbuffers::FlatBufferBuilder &_fbb, const MultiArrayDimensionT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateMultiArrayDimension(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<MultiArrayDimension> CreateMultiArrayDimension(flatbuffers::FlatBufferBuilder &_fbb, const MultiArrayDimensionT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const MultiArrayDimensionT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _label = _fbb.CreateString(_o->label);
+  auto _size = _o->size;
+  auto _stride = _o->stride;
+  return fb::std_msgs::CreateMultiArrayDimension(
+      _fbb,
+      ___metadata,
+      _label,
+      _size,
+      _stride);
+}
+
+inline MultiArrayLayoutT *MultiArrayLayout::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<fb::std_msgs::MultiArrayLayoutT> _o = std::unique_ptr<fb::std_msgs::MultiArrayLayoutT>(new MultiArrayLayoutT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void MultiArrayLayout::UnPackTo(MultiArrayLayoutT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = dim(); if (_e) { _o->dim.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->dim[_i] = std::unique_ptr<fb::std_msgs::MultiArrayDimensionT>(_e->Get(_i)->UnPack(_resolver)); } } }
+  { auto _e = data_offset(); _o->data_offset = _e; }
+}
+
+inline flatbuffers::Offset<MultiArrayLayout> MultiArrayLayout::Pack(flatbuffers::FlatBufferBuilder &_fbb, const MultiArrayLayoutT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateMultiArrayLayout(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<MultiArrayLayout> CreateMultiArrayLayout(flatbuffers::FlatBufferBuilder &_fbb, const MultiArrayLayoutT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const MultiArrayLayoutT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _dim = _fbb.CreateVector<flatbuffers::Offset<fb::std_msgs::MultiArrayDimension>> (_o->dim.size(), [](size_t i, _VectorArgs *__va) { return CreateMultiArrayDimension(*__va->__fbb, __va->__o->dim[i].get(), __va->__rehasher); }, &_va );
+  auto _data_offset = _o->data_offset;
+  return fb::std_msgs::CreateMultiArrayLayout(
+      _fbb,
+      ___metadata,
+      _dim,
+      _data_offset);
+}
+
+inline ByteMultiArrayT *ByteMultiArray::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<fb::std_msgs::ByteMultiArrayT> _o = std::unique_ptr<fb::std_msgs::ByteMultiArrayT>(new ByteMultiArrayT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void ByteMultiArray::UnPackTo(ByteMultiArrayT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = layout(); if (_e) _o->layout = std::unique_ptr<fb::std_msgs::MultiArrayLayoutT>(_e->UnPack(_resolver)); }
+  { auto _e = data(); if (_e) { _o->data.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->data[_i] = _e->Get(_i); } } }
+}
+
+inline flatbuffers::Offset<ByteMultiArray> ByteMultiArray::Pack(flatbuffers::FlatBufferBuilder &_fbb, const ByteMultiArrayT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateByteMultiArray(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<ByteMultiArray> CreateByteMultiArray(flatbuffers::FlatBufferBuilder &_fbb, const ByteMultiArrayT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const ByteMultiArrayT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _layout = _o->layout ? CreateMultiArrayLayout(_fbb, _o->layout.get(), _rehasher) : 0;
+  auto _data = _fbb.CreateVector(_o->data);
+  return fb::std_msgs::CreateByteMultiArray(
+      _fbb,
+      ___metadata,
+      _layout,
       _data);
 }
 
