@@ -102,6 +102,10 @@ struct ColoredArc2D;
 struct ColoredArc2DBuilder;
 struct ColoredArc2DT;
 
+struct ColoredText;
+struct ColoredTextBuilder;
+struct ColoredTextT;
+
 struct VisualizationMsg;
 struct VisualizationMsgBuilder;
 struct VisualizationMsgT;
@@ -203,6 +207,119 @@ struct OdometryBuilder;
 struct OdometryT;
 
 }  // namespace nav_msgs
+
+enum Payload {
+  Payload_NONE = 0,
+  Payload_fb_std_msgs_ByteMultiArray = 1,
+  Payload_MIN = Payload_NONE,
+  Payload_MAX = Payload_fb_std_msgs_ByteMultiArray
+};
+
+inline const Payload (&EnumValuesPayload())[2] {
+  static const Payload values[] = {
+    Payload_NONE,
+    Payload_fb_std_msgs_ByteMultiArray
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesPayload() {
+  static const char * const names[3] = {
+    "NONE",
+    "fb_std_msgs_ByteMultiArray",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamePayload(Payload e) {
+  if (flatbuffers::IsOutRange(e, Payload_NONE, Payload_fb_std_msgs_ByteMultiArray)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesPayload()[index];
+}
+
+template<typename T> struct PayloadTraits {
+  static const Payload enum_value = Payload_NONE;
+};
+
+template<> struct PayloadTraits<fb::std_msgs::ByteMultiArray> {
+  static const Payload enum_value = Payload_fb_std_msgs_ByteMultiArray;
+};
+
+struct PayloadUnion {
+  Payload type;
+  void *value;
+
+  PayloadUnion() : type(Payload_NONE), value(nullptr) {}
+  PayloadUnion(PayloadUnion&& u) FLATBUFFERS_NOEXCEPT :
+    type(Payload_NONE), value(nullptr)
+    { std::swap(type, u.type); std::swap(value, u.value); }
+  PayloadUnion(const PayloadUnion &);
+  PayloadUnion &operator=(const PayloadUnion &u)
+    { PayloadUnion t(u); std::swap(type, t.type); std::swap(value, t.value); return *this; }
+  PayloadUnion &operator=(PayloadUnion &&u) FLATBUFFERS_NOEXCEPT
+    { std::swap(type, u.type); std::swap(value, u.value); return *this; }
+  ~PayloadUnion() { Reset(); }
+
+  void Reset();
+
+#ifndef FLATBUFFERS_CPP98_STL
+  template <typename T>
+  void Set(T&& val) {
+    using RT = typename std::remove_reference<T>::type;
+    Reset();
+    type = PayloadTraits<typename RT::TableType>::enum_value;
+    if (type != Payload_NONE) {
+      value = new RT(std::forward<T>(val));
+    }
+  }
+#endif  // FLATBUFFERS_CPP98_STL
+
+  static void *UnPack(const void *obj, Payload type, const flatbuffers::resolver_function_t *resolver);
+  flatbuffers::Offset<void> Pack(flatbuffers::FlatBufferBuilder &_fbb, const flatbuffers::rehasher_function_t *_rehasher = nullptr) const;
+
+  fb::std_msgs::ByteMultiArrayT *Asfb_std_msgs_ByteMultiArray() {
+    return type == Payload_fb_std_msgs_ByteMultiArray ?
+      reinterpret_cast<fb::std_msgs::ByteMultiArrayT *>(value) : nullptr;
+  }
+  const fb::std_msgs::ByteMultiArrayT *Asfb_std_msgs_ByteMultiArray() const {
+    return type == Payload_fb_std_msgs_ByteMultiArray ?
+      reinterpret_cast<const fb::std_msgs::ByteMultiArrayT *>(value) : nullptr;
+  }
+};
+
+bool VerifyPayload(flatbuffers::Verifier &verifier, const void *obj, Payload type);
+bool VerifyPayloadVector(flatbuffers::Verifier &verifier, const flatbuffers::Vector<flatbuffers::Offset<void>> *values, const flatbuffers::Vector<uint8_t> *types);
+
+enum PayloadType {
+  PayloadType_NONE = 0,
+  PayloadType_ByteMultiArray = 1,
+  PayloadType_MIN = PayloadType_NONE,
+  PayloadType_MAX = PayloadType_ByteMultiArray
+};
+
+inline const PayloadType (&EnumValuesPayloadType())[2] {
+  static const PayloadType values[] = {
+    PayloadType_NONE,
+    PayloadType_ByteMultiArray
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesPayloadType() {
+  static const char * const names[3] = {
+    "NONE",
+    "ByteMultiArray",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamePayloadType(PayloadType e) {
+  if (flatbuffers::IsOutRange(e, PayloadType_NONE, PayloadType_ByteMultiArray)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesPayloadType()[index];
+}
 
 namespace amrl_msgs {
 namespace RobofleetSubscriptionConstants {
@@ -1305,6 +1422,7 @@ flatbuffers::Offset<MsgMetadata> CreateMsgMetadata(flatbuffers::FlatBufferBuilde
 struct MsgWithMetadataT : public flatbuffers::NativeTable {
   typedef MsgWithMetadata TableType;
   std::unique_ptr<fb::MsgMetadataT> __metadata;
+  fb::PayloadUnion payload;
   MsgWithMetadataT() {
   }
 };
@@ -1313,15 +1431,30 @@ struct MsgWithMetadata FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef MsgWithMetadataT NativeTableType;
   typedef MsgWithMetadataBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT___METADATA = 4
+    VT___METADATA = 4,
+    VT_PAYLOAD_TYPE = 6,
+    VT_PAYLOAD = 8
   };
   const fb::MsgMetadata *__metadata() const {
     return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  fb::Payload payload_type() const {
+    return static_cast<fb::Payload>(GetField<uint8_t>(VT_PAYLOAD_TYPE, 0));
+  }
+  const void *payload() const {
+    return GetPointer<const void *>(VT_PAYLOAD);
+  }
+  template<typename T> const T *payload_as() const;
+  const fb::std_msgs::ByteMultiArray *payload_as_fb_std_msgs_ByteMultiArray() const {
+    return payload_type() == fb::Payload_fb_std_msgs_ByteMultiArray ? static_cast<const fb::std_msgs::ByteMultiArray *>(payload()) : nullptr;
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT___METADATA) &&
            verifier.VerifyTable(__metadata()) &&
+           VerifyField<uint8_t>(verifier, VT_PAYLOAD_TYPE) &&
+           VerifyOffset(verifier, VT_PAYLOAD) &&
+           VerifyPayload(verifier, payload(), payload_type()) &&
            verifier.EndTable();
   }
   MsgWithMetadataT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1329,12 +1462,22 @@ struct MsgWithMetadata FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   static flatbuffers::Offset<MsgWithMetadata> Pack(flatbuffers::FlatBufferBuilder &_fbb, const MsgWithMetadataT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
+template<> inline const fb::std_msgs::ByteMultiArray *MsgWithMetadata::payload_as<fb::std_msgs::ByteMultiArray>() const {
+  return payload_as_fb_std_msgs_ByteMultiArray();
+}
+
 struct MsgWithMetadataBuilder {
   typedef MsgWithMetadata Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
   void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
     fbb_.AddOffset(MsgWithMetadata::VT___METADATA, __metadata);
+  }
+  void add_payload_type(fb::Payload payload_type) {
+    fbb_.AddElement<uint8_t>(MsgWithMetadata::VT_PAYLOAD_TYPE, static_cast<uint8_t>(payload_type), 0);
+  }
+  void add_payload(flatbuffers::Offset<void> payload) {
+    fbb_.AddOffset(MsgWithMetadata::VT_PAYLOAD, payload);
   }
   explicit MsgWithMetadataBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -1349,9 +1492,13 @@ struct MsgWithMetadataBuilder {
 
 inline flatbuffers::Offset<MsgWithMetadata> CreateMsgWithMetadata(
     flatbuffers::FlatBufferBuilder &_fbb,
-    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0) {
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    fb::Payload payload_type = fb::Payload_NONE,
+    flatbuffers::Offset<void> payload = 0) {
   MsgWithMetadataBuilder builder_(_fbb);
+  builder_.add_payload(payload);
   builder_.add___metadata(__metadata);
+  builder_.add_payload_type(payload_type);
   return builder_.Finish();
 }
 
@@ -3191,6 +3338,128 @@ inline flatbuffers::Offset<ColoredArc2D> CreateColoredArc2D(
 
 flatbuffers::Offset<ColoredArc2D> CreateColoredArc2D(flatbuffers::FlatBufferBuilder &_fbb, const ColoredArc2DT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct ColoredTextT : public flatbuffers::NativeTable {
+  typedef ColoredText TableType;
+  std::unique_ptr<fb::MsgMetadataT> __metadata;
+  std::unique_ptr<fb::amrl_msgs::Point2DT> start;
+  uint32_t color;
+  float size_em;
+  std::string text;
+  ColoredTextT()
+      : color(0),
+        size_em(0.0f) {
+  }
+};
+
+struct ColoredText FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef ColoredTextT NativeTableType;
+  typedef ColoredTextBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT___METADATA = 4,
+    VT_START = 6,
+    VT_COLOR = 8,
+    VT_SIZE_EM = 10,
+    VT_TEXT = 12
+  };
+  const fb::MsgMetadata *__metadata() const {
+    return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
+  }
+  const fb::amrl_msgs::Point2D *start() const {
+    return GetPointer<const fb::amrl_msgs::Point2D *>(VT_START);
+  }
+  uint32_t color() const {
+    return GetField<uint32_t>(VT_COLOR, 0);
+  }
+  float size_em() const {
+    return GetField<float>(VT_SIZE_EM, 0.0f);
+  }
+  const flatbuffers::String *text() const {
+    return GetPointer<const flatbuffers::String *>(VT_TEXT);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT___METADATA) &&
+           verifier.VerifyTable(__metadata()) &&
+           VerifyOffsetRequired(verifier, VT_START) &&
+           verifier.VerifyTable(start()) &&
+           VerifyField<uint32_t>(verifier, VT_COLOR) &&
+           VerifyField<float>(verifier, VT_SIZE_EM) &&
+           VerifyOffsetRequired(verifier, VT_TEXT) &&
+           verifier.VerifyString(text()) &&
+           verifier.EndTable();
+  }
+  ColoredTextT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ColoredTextT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<ColoredText> Pack(flatbuffers::FlatBufferBuilder &_fbb, const ColoredTextT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct ColoredTextBuilder {
+  typedef ColoredText Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add___metadata(flatbuffers::Offset<fb::MsgMetadata> __metadata) {
+    fbb_.AddOffset(ColoredText::VT___METADATA, __metadata);
+  }
+  void add_start(flatbuffers::Offset<fb::amrl_msgs::Point2D> start) {
+    fbb_.AddOffset(ColoredText::VT_START, start);
+  }
+  void add_color(uint32_t color) {
+    fbb_.AddElement<uint32_t>(ColoredText::VT_COLOR, color, 0);
+  }
+  void add_size_em(float size_em) {
+    fbb_.AddElement<float>(ColoredText::VT_SIZE_EM, size_em, 0.0f);
+  }
+  void add_text(flatbuffers::Offset<flatbuffers::String> text) {
+    fbb_.AddOffset(ColoredText::VT_TEXT, text);
+  }
+  explicit ColoredTextBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<ColoredText> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<ColoredText>(end);
+    fbb_.Required(o, ColoredText::VT_START);
+    fbb_.Required(o, ColoredText::VT_TEXT);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<ColoredText> CreateColoredText(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::amrl_msgs::Point2D> start = 0,
+    uint32_t color = 0,
+    float size_em = 0.0f,
+    flatbuffers::Offset<flatbuffers::String> text = 0) {
+  ColoredTextBuilder builder_(_fbb);
+  builder_.add_text(text);
+  builder_.add_size_em(size_em);
+  builder_.add_color(color);
+  builder_.add_start(start);
+  builder_.add___metadata(__metadata);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<ColoredText> CreateColoredTextDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<fb::MsgMetadata> __metadata = 0,
+    flatbuffers::Offset<fb::amrl_msgs::Point2D> start = 0,
+    uint32_t color = 0,
+    float size_em = 0.0f,
+    const char *text = nullptr) {
+  auto text__ = text ? _fbb.CreateString(text) : 0;
+  return fb::amrl_msgs::CreateColoredText(
+      _fbb,
+      __metadata,
+      start,
+      color,
+      size_em,
+      text__);
+}
+
+flatbuffers::Offset<ColoredText> CreateColoredText(flatbuffers::FlatBufferBuilder &_fbb, const ColoredTextT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 struct VisualizationMsgT : public flatbuffers::NativeTable {
   typedef VisualizationMsg TableType;
   std::unique_ptr<fb::MsgMetadataT> __metadata;
@@ -3201,6 +3470,7 @@ struct VisualizationMsgT : public flatbuffers::NativeTable {
   std::vector<std::unique_ptr<fb::amrl_msgs::ColoredPoint2DT>> points;
   std::vector<std::unique_ptr<fb::amrl_msgs::ColoredLine2DT>> lines;
   std::vector<std::unique_ptr<fb::amrl_msgs::ColoredArc2DT>> arcs;
+  std::vector<std::unique_ptr<fb::amrl_msgs::ColoredTextT>> text_annotations;
   VisualizationMsgT() {
   }
 };
@@ -3216,7 +3486,8 @@ struct VisualizationMsg FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_PATH_OPTIONS = 12,
     VT_POINTS = 14,
     VT_LINES = 16,
-    VT_ARCS = 18
+    VT_ARCS = 18,
+    VT_TEXT_ANNOTATIONS = 20
   };
   const fb::MsgMetadata *__metadata() const {
     return GetPointer<const fb::MsgMetadata *>(VT___METADATA);
@@ -3242,6 +3513,9 @@ struct VisualizationMsg FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::ColoredArc2D>> *arcs() const {
     return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::ColoredArc2D>> *>(VT_ARCS);
   }
+  const flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::ColoredText>> *text_annotations() const {
+    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::ColoredText>> *>(VT_TEXT_ANNOTATIONS);
+  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT___METADATA) &&
@@ -3265,6 +3539,9 @@ struct VisualizationMsg FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyOffsetRequired(verifier, VT_ARCS) &&
            verifier.VerifyVector(arcs()) &&
            verifier.VerifyVectorOfTables(arcs()) &&
+           VerifyOffsetRequired(verifier, VT_TEXT_ANNOTATIONS) &&
+           verifier.VerifyVector(text_annotations()) &&
+           verifier.VerifyVectorOfTables(text_annotations()) &&
            verifier.EndTable();
   }
   VisualizationMsgT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -3300,6 +3577,9 @@ struct VisualizationMsgBuilder {
   void add_arcs(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::ColoredArc2D>>> arcs) {
     fbb_.AddOffset(VisualizationMsg::VT_ARCS, arcs);
   }
+  void add_text_annotations(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::ColoredText>>> text_annotations) {
+    fbb_.AddOffset(VisualizationMsg::VT_TEXT_ANNOTATIONS, text_annotations);
+  }
   explicit VisualizationMsgBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -3314,6 +3594,7 @@ struct VisualizationMsgBuilder {
     fbb_.Required(o, VisualizationMsg::VT_POINTS);
     fbb_.Required(o, VisualizationMsg::VT_LINES);
     fbb_.Required(o, VisualizationMsg::VT_ARCS);
+    fbb_.Required(o, VisualizationMsg::VT_TEXT_ANNOTATIONS);
     return o;
   }
 };
@@ -3327,8 +3608,10 @@ inline flatbuffers::Offset<VisualizationMsg> CreateVisualizationMsg(
     flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::PathVisualization>>> path_options = 0,
     flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::ColoredPoint2D>>> points = 0,
     flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::ColoredLine2D>>> lines = 0,
-    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::ColoredArc2D>>> arcs = 0) {
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::ColoredArc2D>>> arcs = 0,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<fb::amrl_msgs::ColoredText>>> text_annotations = 0) {
   VisualizationMsgBuilder builder_(_fbb);
+  builder_.add_text_annotations(text_annotations);
   builder_.add_arcs(arcs);
   builder_.add_lines(lines);
   builder_.add_points(points);
@@ -3349,13 +3632,15 @@ inline flatbuffers::Offset<VisualizationMsg> CreateVisualizationMsgDirect(
     const std::vector<flatbuffers::Offset<fb::amrl_msgs::PathVisualization>> *path_options = nullptr,
     const std::vector<flatbuffers::Offset<fb::amrl_msgs::ColoredPoint2D>> *points = nullptr,
     const std::vector<flatbuffers::Offset<fb::amrl_msgs::ColoredLine2D>> *lines = nullptr,
-    const std::vector<flatbuffers::Offset<fb::amrl_msgs::ColoredArc2D>> *arcs = nullptr) {
+    const std::vector<flatbuffers::Offset<fb::amrl_msgs::ColoredArc2D>> *arcs = nullptr,
+    const std::vector<flatbuffers::Offset<fb::amrl_msgs::ColoredText>> *text_annotations = nullptr) {
   auto ns__ = ns ? _fbb.CreateString(ns) : 0;
   auto particles__ = particles ? _fbb.CreateVector<flatbuffers::Offset<fb::amrl_msgs::Pose2Df>>(*particles) : 0;
   auto path_options__ = path_options ? _fbb.CreateVector<flatbuffers::Offset<fb::amrl_msgs::PathVisualization>>(*path_options) : 0;
   auto points__ = points ? _fbb.CreateVector<flatbuffers::Offset<fb::amrl_msgs::ColoredPoint2D>>(*points) : 0;
   auto lines__ = lines ? _fbb.CreateVector<flatbuffers::Offset<fb::amrl_msgs::ColoredLine2D>>(*lines) : 0;
   auto arcs__ = arcs ? _fbb.CreateVector<flatbuffers::Offset<fb::amrl_msgs::ColoredArc2D>>(*arcs) : 0;
+  auto text_annotations__ = text_annotations ? _fbb.CreateVector<flatbuffers::Offset<fb::amrl_msgs::ColoredText>>(*text_annotations) : 0;
   return fb::amrl_msgs::CreateVisualizationMsg(
       _fbb,
       __metadata,
@@ -3365,7 +3650,8 @@ inline flatbuffers::Offset<VisualizationMsg> CreateVisualizationMsgDirect(
       path_options__,
       points__,
       lines__,
-      arcs__);
+      arcs__,
+      text_annotations__);
 }
 
 flatbuffers::Offset<VisualizationMsg> CreateVisualizationMsg(flatbuffers::FlatBufferBuilder &_fbb, const VisualizationMsgT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
@@ -5600,6 +5886,8 @@ inline void MsgWithMetadata::UnPackTo(MsgWithMetadataT *_o, const flatbuffers::r
   (void)_o;
   (void)_resolver;
   { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = payload_type(); _o->payload.type = _e; }
+  { auto _e = payload(); if (_e) _o->payload.value = fb::PayloadUnion::UnPack(_e, payload_type(), _resolver); }
 }
 
 inline flatbuffers::Offset<MsgWithMetadata> MsgWithMetadata::Pack(flatbuffers::FlatBufferBuilder &_fbb, const MsgWithMetadataT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
@@ -5611,9 +5899,13 @@ inline flatbuffers::Offset<MsgWithMetadata> CreateMsgWithMetadata(flatbuffers::F
   (void)_o;
   struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const MsgWithMetadataT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _payload_type = _o->payload.type;
+  auto _payload = _o->payload.Pack(_fbb);
   return fb::CreateMsgWithMetadata(
       _fbb,
-      ___metadata);
+      ___metadata,
+      _payload_type,
+      _payload);
 }
 
 namespace amrl_msgs {
@@ -6265,6 +6557,44 @@ inline flatbuffers::Offset<ColoredArc2D> CreateColoredArc2D(flatbuffers::FlatBuf
       _color);
 }
 
+inline ColoredTextT *ColoredText::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<fb::amrl_msgs::ColoredTextT> _o = std::unique_ptr<fb::amrl_msgs::ColoredTextT>(new ColoredTextT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void ColoredText::UnPackTo(ColoredTextT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = __metadata(); if (_e) _o->__metadata = std::unique_ptr<fb::MsgMetadataT>(_e->UnPack(_resolver)); }
+  { auto _e = start(); if (_e) _o->start = std::unique_ptr<fb::amrl_msgs::Point2DT>(_e->UnPack(_resolver)); }
+  { auto _e = color(); _o->color = _e; }
+  { auto _e = size_em(); _o->size_em = _e; }
+  { auto _e = text(); if (_e) _o->text = _e->str(); }
+}
+
+inline flatbuffers::Offset<ColoredText> ColoredText::Pack(flatbuffers::FlatBufferBuilder &_fbb, const ColoredTextT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateColoredText(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<ColoredText> CreateColoredText(flatbuffers::FlatBufferBuilder &_fbb, const ColoredTextT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const ColoredTextT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto ___metadata = _o->__metadata ? CreateMsgMetadata(_fbb, _o->__metadata.get(), _rehasher) : 0;
+  auto _start = _o->start ? CreatePoint2D(_fbb, _o->start.get(), _rehasher) : 0;
+  auto _color = _o->color;
+  auto _size_em = _o->size_em;
+  auto _text = _fbb.CreateString(_o->text);
+  return fb::amrl_msgs::CreateColoredText(
+      _fbb,
+      ___metadata,
+      _start,
+      _color,
+      _size_em,
+      _text);
+}
+
 inline VisualizationMsgT *VisualizationMsg::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   std::unique_ptr<fb::amrl_msgs::VisualizationMsgT> _o = std::unique_ptr<fb::amrl_msgs::VisualizationMsgT>(new VisualizationMsgT());
   UnPackTo(_o.get(), _resolver);
@@ -6282,6 +6612,7 @@ inline void VisualizationMsg::UnPackTo(VisualizationMsgT *_o, const flatbuffers:
   { auto _e = points(); if (_e) { _o->points.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->points[_i] = std::unique_ptr<fb::amrl_msgs::ColoredPoint2DT>(_e->Get(_i)->UnPack(_resolver)); } } }
   { auto _e = lines(); if (_e) { _o->lines.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->lines[_i] = std::unique_ptr<fb::amrl_msgs::ColoredLine2DT>(_e->Get(_i)->UnPack(_resolver)); } } }
   { auto _e = arcs(); if (_e) { _o->arcs.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->arcs[_i] = std::unique_ptr<fb::amrl_msgs::ColoredArc2DT>(_e->Get(_i)->UnPack(_resolver)); } } }
+  { auto _e = text_annotations(); if (_e) { _o->text_annotations.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->text_annotations[_i] = std::unique_ptr<fb::amrl_msgs::ColoredTextT>(_e->Get(_i)->UnPack(_resolver)); } } }
 }
 
 inline flatbuffers::Offset<VisualizationMsg> VisualizationMsg::Pack(flatbuffers::FlatBufferBuilder &_fbb, const VisualizationMsgT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
@@ -6300,6 +6631,7 @@ inline flatbuffers::Offset<VisualizationMsg> CreateVisualizationMsg(flatbuffers:
   auto _points = _fbb.CreateVector<flatbuffers::Offset<fb::amrl_msgs::ColoredPoint2D>> (_o->points.size(), [](size_t i, _VectorArgs *__va) { return CreateColoredPoint2D(*__va->__fbb, __va->__o->points[i].get(), __va->__rehasher); }, &_va );
   auto _lines = _fbb.CreateVector<flatbuffers::Offset<fb::amrl_msgs::ColoredLine2D>> (_o->lines.size(), [](size_t i, _VectorArgs *__va) { return CreateColoredLine2D(*__va->__fbb, __va->__o->lines[i].get(), __va->__rehasher); }, &_va );
   auto _arcs = _fbb.CreateVector<flatbuffers::Offset<fb::amrl_msgs::ColoredArc2D>> (_o->arcs.size(), [](size_t i, _VectorArgs *__va) { return CreateColoredArc2D(*__va->__fbb, __va->__o->arcs[i].get(), __va->__rehasher); }, &_va );
+  auto _text_annotations = _fbb.CreateVector<flatbuffers::Offset<fb::amrl_msgs::ColoredText>> (_o->text_annotations.size(), [](size_t i, _VectorArgs *__va) { return CreateColoredText(*__va->__fbb, __va->__o->text_annotations[i].get(), __va->__rehasher); }, &_va );
   return fb::amrl_msgs::CreateVisualizationMsg(
       _fbb,
       ___metadata,
@@ -6309,7 +6641,8 @@ inline flatbuffers::Offset<VisualizationMsg> CreateVisualizationMsg(flatbuffers:
       _path_options,
       _points,
       _lines,
-      _arcs);
+      _arcs,
+      _text_annotations);
 }
 
 }  // namespace amrl_msgs
@@ -7056,6 +7389,76 @@ inline flatbuffers::Offset<Odometry> CreateOdometry(flatbuffers::FlatBufferBuild
 }
 
 }  // namespace nav_msgs
+
+inline bool VerifyPayload(flatbuffers::Verifier &verifier, const void *obj, Payload type) {
+  switch (type) {
+    case Payload_NONE: {
+      return true;
+    }
+    case Payload_fb_std_msgs_ByteMultiArray: {
+      auto ptr = reinterpret_cast<const fb::std_msgs::ByteMultiArray *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    default: return true;
+  }
+}
+
+inline bool VerifyPayloadVector(flatbuffers::Verifier &verifier, const flatbuffers::Vector<flatbuffers::Offset<void>> *values, const flatbuffers::Vector<uint8_t> *types) {
+  if (!values || !types) return !values && !types;
+  if (values->size() != types->size()) return false;
+  for (flatbuffers::uoffset_t i = 0; i < values->size(); ++i) {
+    if (!VerifyPayload(
+        verifier,  values->Get(i), types->GetEnum<Payload>(i))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+inline void *PayloadUnion::UnPack(const void *obj, Payload type, const flatbuffers::resolver_function_t *resolver) {
+  switch (type) {
+    case Payload_fb_std_msgs_ByteMultiArray: {
+      auto ptr = reinterpret_cast<const fb::std_msgs::ByteMultiArray *>(obj);
+      return ptr->UnPack(resolver);
+    }
+    default: return nullptr;
+  }
+}
+
+inline flatbuffers::Offset<void> PayloadUnion::Pack(flatbuffers::FlatBufferBuilder &_fbb, const flatbuffers::rehasher_function_t *_rehasher) const {
+  switch (type) {
+    case Payload_fb_std_msgs_ByteMultiArray: {
+      auto ptr = reinterpret_cast<const fb::std_msgs::ByteMultiArrayT *>(value);
+      return CreateByteMultiArray(_fbb, ptr, _rehasher).Union();
+    }
+    default: return 0;
+  }
+}
+
+inline PayloadUnion::PayloadUnion(const PayloadUnion &u) : type(u.type), value(nullptr) {
+  switch (type) {
+    case Payload_fb_std_msgs_ByteMultiArray: {
+      FLATBUFFERS_ASSERT(false);  // fb::std_msgs::ByteMultiArrayT not copyable.
+      break;
+    }
+    default:
+      break;
+  }
+}
+
+inline void PayloadUnion::Reset() {
+  switch (type) {
+    case Payload_fb_std_msgs_ByteMultiArray: {
+      auto ptr = reinterpret_cast<fb::std_msgs::ByteMultiArrayT *>(value);
+      delete ptr;
+      break;
+    }
+    default: break;
+  }
+  value = nullptr;
+  type = Payload_NONE;
+}
+
 }  // namespace fb
 
 #endif  // FLATBUFFERS_GENERATED_SCHEMA_FB_NAV_MSGS_H_
